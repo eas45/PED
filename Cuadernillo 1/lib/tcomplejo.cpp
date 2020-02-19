@@ -32,7 +32,7 @@ TComplejo::operator= (const TComplejo &com)
     Copia(com);
   }
 
-  return *this;
+  return (*this);
 }
 
 // Lleva a cabo la copia de los valores de un objeto a otro

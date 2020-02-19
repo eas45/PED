@@ -47,7 +47,7 @@ class TVectorCom
   // Mostrar los elementos TComplejo del vector con PARTE REAL IGUAL O POSTERIOR al argumento
   void MostrarComplejos (const double&) const;
   // REDIMENSIONAR el vector de TComplejo
-  bool Redimensionar (const int&) const;
+  bool Redimensionar (const int&);
 };
 
 #endif

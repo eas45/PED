@@ -51,19 +51,13 @@ TVectorCom::operator= (const TVectorCom& vector)
   {
     // Se destruye inicial
     this->~TVectorCom();
-    // Puede que se modifique el tamaño
-    if (tamano == vector.Tamano())
-    {
-      //Redimensionar();
-    }
+    // Se inicializa con la dimensión que se necesita
+    Inic(vector.Tamano());
+    Copia(vector);
   }
+
+  return (*this);
 }
-
-/**************************
- * OPERADORES ARITMÉTICOS *
- **************************/
-
-
 
 /********************
  * OTROS OPERADORES *
@@ -72,7 +66,25 @@ TVectorCom::operator= (const TVectorCom& vector)
 bool
 TVectorCom::operator== (const TVectorCom& vector) const
 {
-  // TODO
+  if (tamano == vector.Tamano())
+  {
+    for (int i = 1; i <= tamano; i++)
+    {
+      if (c[i] != vector.c[i])
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  return false;
+}
+
+bool
+TVectorCom::operator!= (const TVectorCom& vector) const
+{
+  return !((*this) == vector);
 }
 
 // Parte IZQUIERDA
@@ -135,6 +147,63 @@ TVectorCom::Ocupadas () const
  * MÉTODOS Y FUNCIONES *
  ***********************/
 
+bool
+TVectorCom::ExisteCom (const TComplejo& com) const
+{
+  for (int i = 1; i <= tamano; i++)
+  {
+    if (com == c[i])
+    {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+void
+TVectorCom::MostrarComplejos (const double& d) const
+{
+  bool primero = true;    // Variable auxiliar para saber si es el primer elemento
+
+  cout << "[";
+  for (int i = 1; i <= tamano; i++)
+  {
+    if (c[i].Re() >= d)
+    {
+      if (!primero)
+      {   // Si es el primer complejo no tiene que escribir ", " delante
+        cout << ", ";
+      }
+      cout << c[i];
+      if (primero)
+      {
+        primero = false;
+      }
+    }
+  }
+  cout << "]";
+}
+
+bool
+TVectorCom::Redimensionar (const int& nuevoTamano)
+{
+  if (nuevoTamano > 0)
+  {
+    // Vector auxiliar para guardar los valores
+    TVectorCom aux((*this));
+    // Libero memoria
+    this->~TVectorCom();
+    Inic(nuevoTamano);
+    Copia(aux);
+    // Se destruye aux
+    aux.~TVectorCom();
+    return true;
+  }
+
+  return false;
+}
+
 void
 TVectorCom::Inic (const int& nuevoTamano)
 {
@@ -154,7 +223,7 @@ TVectorCom::Inic (const int& nuevoTamano)
 void
 TVectorCom::Copia (const TVectorCom& vector)
 {
-  for (int i = 1; i <= tamano; i++)
+  for (int i = 1; i <= tamano && i <= vector.Tamano(); i++)
   {
     c[i] = vector[i];
   }
