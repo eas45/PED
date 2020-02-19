@@ -7,8 +7,7 @@
 // Constructor por defecto
 TVectorCom::TVectorCom ()
 {
-  c = NULL;
-  tamano = 0;
+  Inic();
 }
 
 // Constructor a partir de un tamaño
@@ -16,13 +15,11 @@ TVectorCom::TVectorCom (const int& tam)
 {
   if (tam > 0)
   {
-    c = new TComplejo[tam];
-    tamano = tam;
+    Inic(tam);
   }
   else
   {
-    c = NULL;
-    tamano = 0;
+    Inic();
   }
 }
 
@@ -30,7 +27,8 @@ TVectorCom::TVectorCom (const int& tam)
 TVectorCom::TVectorCom (const TVectorCom& vector)
 {
   // Se crea el vector del mismo tamaño
-  c = new TComplejo[vector.Tamano()];
+  Inic(vector.Tamano());
+  Copia(vector);
 }
 
 // Destructor
@@ -49,9 +47,16 @@ TVectorCom&
 TVectorCom::operator= (const TVectorCom& vector)
 {
   // TODO
-  // A un vector NO vacío
-  // Se destruye inicial
-  // Puede que se modifique el tamaño
+  if (this != &vector)
+  {
+    // Se destruye inicial
+    this->~TVectorCom();
+    // Puede que se modifique el tamaño
+    if (tamano == vector.Tamano())
+    {
+      //Redimensionar();
+    }
+  }
 }
 
 /**************************
@@ -70,11 +75,13 @@ TVectorCom::operator== (const TVectorCom& vector) const
   // TODO
 }
 
+// Parte IZQUIERDA
+// Devuelve la referencia del objeto TComplejo
 TComplejo&
 TVectorCom::operator[] (const int& pos)
 {
   if (EstaDentro(pos))
-  { // Está dentro del rango del vector
+  {
     return c[pos - 1];
   }
   else
@@ -83,6 +90,8 @@ TVectorCom::operator[] (const int& pos)
   }
 }
 
+// Parte DERECHA
+// Devuelve el valor del objeto TComplejo
 TComplejo
 TVectorCom::operator[] (const int& pos) const
 {
@@ -94,7 +103,6 @@ TVectorCom::operator[] (const int& pos) const
   {
     return error;
   }
-  
 }
 
 /*********************
@@ -110,10 +118,17 @@ TVectorCom::Tamano () const
 int
 TVectorCom::Ocupadas () const
 {
-  // TODO
-  for (int i = 0; i < tamano; i++)
+  int nOcupadas = 0;    // Número de posiciones ocupadas
+
+  for (int i = 1; i <= tamano; i++)
   {
+    if (!PosVacia(c[i]))
+    {
+      nOcupadas++;
+    }
   }
+
+  return nOcupadas;
 }
 
 /***********************
@@ -121,11 +136,31 @@ TVectorCom::Ocupadas () const
  ***********************/
 
 void
-TVectorCom::Copia (const TVectorCom& vector)
+TVectorCom::Inic (const int& nuevoTamano)
 {
-
+  tamano = nuevoTamano;
+  if (tamano == 0)
+  {
+    c = NULL;
+  }
+  else
+  {
+    c = new TComplejo[tamano];
+  }
+  
 }
 
+// Copia cada elemento, uno a uno
+void
+TVectorCom::Copia (const TVectorCom& vector)
+{
+  for (int i = 1; i <= tamano; i++)
+  {
+    c[i] = vector[i];
+  }
+}
+
+// Indica si la posición está dentro del vector
 bool
 TVectorCom::EstaDentro (const int& pos) const
 {
@@ -134,5 +169,17 @@ TVectorCom::EstaDentro (const int& pos) const
     return true;
   }
   
+  return false;
+}
+
+// Indica si la posición del array está vacía
+bool
+TVectorCom::PosVacia (const TComplejo& com) const
+{
+  if (com.Re() == 0 && com.Im() == 0)
+  {
+    return true;
+  }
+
   return false;
 }

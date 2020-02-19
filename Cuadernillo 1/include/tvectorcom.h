@@ -11,15 +11,16 @@ class TVectorCom
   private:
   TComplejo *c;
   int tamano;
-  // No hace falta inicializar
-  TComplejo error;
+  TComplejo error;      // No hace falta inicializar
 
+  void Inic(const int& = 0);
   void Copia (const TVectorCom&);
   bool EstaDentro (const int&) const;
+  bool PosVacia (const TComplejo&) const;
 
   public:
   // Constructor por defecto
-  TVectorCom();
+  TVectorCom ();
   // Constructor a partir de un tamaño
   TVectorCom (const int&);
   // Constructor de copia

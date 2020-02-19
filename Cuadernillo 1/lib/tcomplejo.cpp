@@ -5,6 +5,7 @@ TComplejo::TComplejo (const double &re, const double &im)
 {
   this->re = re;
   this->im = im;
+  corregirCero();
 }
 
 // Constructor de copia
@@ -26,7 +27,7 @@ TComplejo::operator= (const TComplejo &com)
   // Se comprueba que no sea el mismo objeto
   if (this != &com) {
     // Primero se liberan los recursos
-    (*this).~TComplejo();
+    this->~TComplejo();
     // Se asignan los nuevos valores
     Copia(com);
   }
