@@ -15,6 +15,7 @@ class TVectorCom
 
   void Inic(const int& = 0);
   void Copia (const TVectorCom&);
+  void Copia (TComplejo*, const int&) const;
   bool EstaDentro (const int&) const;
   bool PosVacia (const TComplejo&) const;
 

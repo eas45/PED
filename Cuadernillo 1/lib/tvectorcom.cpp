@@ -26,8 +26,6 @@ TVectorCom::TVectorCom (const int& tam)
 // Constructor de copia
 TVectorCom::TVectorCom (const TVectorCom& vector)
 {
-  // Se crea el vector del mismo tamaño
-  Inic(vector.Tamano());
   Copia(vector);
 }
 
@@ -51,8 +49,6 @@ TVectorCom::operator= (const TVectorCom& vector)
   {
     // Se destruye inicial
     this->~TVectorCom();
-    // Se inicializa con la dimensión que se necesita
-    Inic(vector.Tamano());
     Copia(vector);
   }
 
@@ -190,14 +186,10 @@ TVectorCom::Redimensionar (const int& nuevoTamano)
 {
   if (nuevoTamano > 0)
   {
-    // Vector auxiliar para guardar los valores
-    TVectorCom aux((*this));
-    // Libero memoria
-    this->~TVectorCom();
-    Inic(nuevoTamano);
-    Copia(aux);
-    // Se destruye aux
-    aux.~TVectorCom();
+    // Se crea un vector TComplejo nuevo
+    TComplejo *nuevoVector = new TComplejo[nuevoTamano];
+    // Se copian los datos que se tienen en el vector al nuevo
+    Copia(nuevoVector, nuevoTamano);
     return true;
   }
 
@@ -223,9 +215,22 @@ TVectorCom::Inic (const int& nuevoTamano)
 void
 TVectorCom::Copia (const TVectorCom& vector)
 {
-  for (int i = 1; i <= tamano && i <= vector.Tamano(); i++)
+  Inic(vector.Tamano());
+
+  for (int i = 1; i <= tamano; i++)
   {
-    c[i] = vector[i];
+    // c es un vector de TComplejo, por lo que no está sobrecargado
+    c[i - 1] = vector[i];
+  }
+}
+
+// Copia los elementos del objeto a un nuevo vector de TComplejo
+void
+TVectorCom::Copia (TComplejo* vector, const int& tam) const
+{
+  for (int i = 0; i < tamano && i < tam; i++)
+  {
+    vector[i] = c[i];
   }
 }
 
@@ -252,3 +257,28 @@ TVectorCom::PosVacia (const TComplejo& com) const
 
   return false;
 }
+
+// OPERADOR SALIDA
+  ostream& operator<< (ostream& os, const TVectorCom& vector)
+  {
+    bool primero = true;
+
+    os << "[";
+
+    for (int i = 1; i <= vector.tamano; i++)
+    {
+      if (!primero)
+      {
+        os << ", ";
+      }
+      os << "(" << i << ") " << vector[i];
+      if (primero)
+      {
+        primero = false;
+      }
+    }
+
+    os << "]";
+
+    return os;
+  }
