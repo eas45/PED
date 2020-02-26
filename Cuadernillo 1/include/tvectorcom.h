@@ -1,7 +1,7 @@
 #ifndef _TVECTORCOM_
 #define _TVECTORCOM_
 
-#include "tcomplejo.h";
+#include "tcomplejo.h"
 
 class TVectorCom
 {
