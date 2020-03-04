@@ -39,6 +39,7 @@ class TVectorCom
   TComplejo& operator[] (const int&);
   // Sobrecarga del operador corchete (parte DERECHA)
   TComplejo operator[] (const int&) const;
+  
   // Tamaño del vector (posiciones TOTALES)
   int Tamano () const;
   // Cantidad de posiciones OCUPADAS (TComplejo NO VACÍO) en el vector
