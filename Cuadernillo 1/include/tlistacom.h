@@ -77,4 +77,39 @@ class TListaPos
   bool esVacia () const;
 };
 
+class TListaCom
+{
+  friend ostream& operator<< (ostream&, const TListaCom&);
+
+  private:
+  // Primer elemento de la lista
+  TListaNodo *primero;
+  // Último elemento de la lista
+  TListaNodo *ultimo;
+
+  public:
+  TListaCom ();
+  TListaCom (const TListaCom&);
+  ~TListaCom ();
+  TListaCom& operator= (const TListaCom&);
+
+  bool operator== (const TListaCom&) const;
+  bool operator!= (const TListaCom&) const;
+  TListaCom operator+ (const TListaCom&) const;
+  TListaCom operator- (const TListaCom&) const;
+
+  TListaPos Primera () const;
+  TListaPos Ultima () const;
+
+  bool esVacia () const;
+  bool InsCabeza (const TComplejo&);
+  bool InsertarI (const TComplejo&, const TListaPos&);
+  bool InsertarD (const TComplejo&, const TListaPos&);
+  bool Borrar (const TComplejo&);
+  bool BorrarTodos (const TComplejo&);
+  bool Borrar (const TListaPos&);
+  TComplejo Obtener (const TListaPos&) const;
+  bool Buscar (const TComplejo&) const;
+};
+
 #endif

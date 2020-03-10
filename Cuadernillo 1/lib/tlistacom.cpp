@@ -148,14 +148,14 @@ TListaPos::operator!= (const TListaPos& posicion) const
 TListaPos
 TListaPos::Anterior () const
 {
-  return TListaPos(pos->Anterior());
+  return TListaPos(pos->anterior);
 }
 
 // Devuelve la posición siguiente
 TListaPos
 TListaPos::Siguiente () const
 {
-  return TListaPos(pos->Siguiente());
+  return TListaPos(pos->siguiente);
 }
 
 // Devuelve el puntero que contiene el atributo 'pos'
@@ -187,6 +187,61 @@ TListaPos::esVacia () const
 /******************
  * FORMA CANÓNICA *
  ******************/
+
+// Constructor por defecto
+TListaCom::TListaCom ()
+{
+  primero = NULL;
+  ultimo = NULL;
+}
+
+// Constructor de copia
+TListaCom::TListaCom (const TListaCom& lista)
+{
+  // TODO
+}
+
+// Desctructor
+TListaCom::~TListaCom ()
+{
+  // TODO
+}
+
+// Sobrecarga de operador asignación
+TListaCom&
+TListaCom::operator= (const TListaCom& lista)
+{
+  // TODO
+}
+
+/********************
+ * OTROS OPERADORES *
+ ********************/
+/* Sobrecarga del operador igualdad
+    Dos listas son iguales si poseen los mismos elementos en el mismo orden
+*/
+bool
+TListaCom::operator== (const TListaCom& lista) const
+{
+  // TODO
+}
+
+// Sobrecarga del operador desigualdad
+bool
+TListaCom::operator!= (const TListaCom& lista) const
+{
+
+}
+
+/* Sobrecarga del operador suma
+    Une los elementos de dos listas en una nueva lista.
+    Primero los elementos de la primera lista y acontinuación los de la segunda
+*/
+TListaCom
+TListaCom::operator+ (const TListaCom& lista) const
+{
+
+}
 
 /*********************
  * GETTERS Y SETTERS *
