@@ -51,6 +51,8 @@ class TListaPos
   public:
   // Constructor por defecto
   TListaPos ();
+  // Constructor a partir de un nodo
+  TListaPos (TListaNodo*);
   // Constructor de copia
   TListaPos (const TListaPos&);
   // Destructor
@@ -64,14 +66,15 @@ class TListaPos
   bool operator!= (const TListaPos&) const;
   
   // Devuelve la posición anterior
-  TListaPos Anterior();
+  TListaPos Anterior () const;
   // Devuelve la posición siguiente
-  TListaPos Siguiente();
-  // Devuelve TRUE si la posición no apunta a una lista,
-  // FALSE en caso contrario
-  bool esVacia ();
+  TListaPos Siguiente () const;
   // Devuelve el puntero que contiene el atributo 'pos'
   TListaNodo* Pos () const;
+
+  // Devuelve TRUE si la posición no apunta a una lista,
+  // FALSE en caso contrario
+  bool esVacia () const;
 };
 
 #endif

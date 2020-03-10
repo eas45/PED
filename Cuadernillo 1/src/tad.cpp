@@ -10,5 +10,5 @@ main(void)
 {
   TListaNodo a;
 
-  cout << a.getElemento() << endl;
+  cout << a.Elemento() << endl;
 }

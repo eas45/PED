@@ -90,6 +90,12 @@ TListaPos::TListaPos ()
   pos = NULL;
 }
 
+// Constructor a partir de un nodo
+TListaPos::TListaPos (TListaNodo* posNodo)
+{
+  pos = posNodo;
+}
+
 // Constructor de copia
 TListaPos::TListaPos (const TListaPos& nuevaPosicion)
 {
@@ -138,6 +144,20 @@ TListaPos::operator!= (const TListaPos& posicion) const
  * GETTERS Y SETTERS *
  *********************/
 
+// Devuelve la posición anterior
+TListaPos
+TListaPos::Anterior () const
+{
+  return TListaPos(pos->Anterior());
+}
+
+// Devuelve la posición siguiente
+TListaPos
+TListaPos::Siguiente () const
+{
+  return TListaPos(pos->Siguiente());
+}
+
 // Devuelve el puntero que contiene el atributo 'pos'
 TListaNodo*
 TListaPos::Pos () const
@@ -148,6 +168,17 @@ TListaPos::Pos () const
 /***********************
  * MÉTODOS Y FUNCIONES *
  ***********************/
+
+bool
+TListaPos::esVacia () const
+{
+  if (pos == NULL)
+  {
+    return true;
+  }
+  
+  return false;
+}
 
 // #############
 // # TLISTACOM #
