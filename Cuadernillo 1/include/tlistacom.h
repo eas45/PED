@@ -110,6 +110,7 @@ class TListaCom
   bool Borrar (const TListaPos&);
   TComplejo Obtener (const TListaPos&) const;
   bool Buscar (const TComplejo&) const;
+  int Longitud () const;
 };
 
 #endif

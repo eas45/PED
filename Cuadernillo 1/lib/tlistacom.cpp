@@ -195,10 +195,16 @@ TListaCom::TListaCom ()
   ultimo = NULL;
 }
 
+// TODO
 // Constructor de copia
 TListaCom::TListaCom (const TListaCom& lista)
 {
-  // TODO
+  primero = new TListaNodo (*(lista.Primera().Pos()));
+
+  // while ()
+  // {
+    
+  // }
 }
 
 // Desctructor
@@ -230,7 +236,7 @@ TListaCom::operator== (const TListaCom& lista) const
 bool
 TListaCom::operator!= (const TListaCom& lista) const
 {
-
+  // TODO
 }
 
 /* Sobrecarga del operador suma
@@ -240,13 +246,123 @@ TListaCom::operator!= (const TListaCom& lista) const
 TListaCom
 TListaCom::operator+ (const TListaCom& lista) const
 {
+  // TODO
+}
 
+TListaCom
+TListaCom::operator- (const TListaCom& lista) const
+{
+  // TODO
 }
 
 /*********************
  * GETTERS Y SETTERS *
  *********************/
 
+// Devuelve la primera posición de la lista
+TListaPos
+TListaCom::Primera () const
+{
+  return TListaPos(primero);
+}
+
+// Devuelve la última posición de la lista
+TListaPos
+TListaCom::Ultima () const
+{
+  return TListaPos(ultimo);
+}
+
 /***********************
  * MÉTODOS Y FUNCIONES *
  ***********************/
+
+// Devuelve TRUE si la lista está vacía, FALSE en caso contrario
+bool
+TListaCom::esVacia () const
+{
+  if (primero == NULL && ultimo == NULL)
+  {
+    return true;
+  }
+
+  return false;
+}
+
+// Inserta el elemento en la cabeza de la lista
+bool
+TListaCom::InsCabeza (const TComplejo& complejo)
+{
+  // TODO
+}
+
+// Inserta el elemento a la izquierda de la posición indicada
+bool
+TListaCom::InsertarI (const TComplejo& complejo, const TListaPos& posicion)
+{
+  // TODO
+}
+
+// Inserta el elemento a la derecha de la posición indicada
+bool
+TListaCom::InsertarD (const TComplejo& complejo, const TListaPos& posicion)
+{
+  // TODO
+}
+
+// Busca y borra LA PRIMERA ocurrencia del elemento
+bool
+TListaCom::Borrar (const TComplejo& complejo)
+{
+  // TODO
+}
+
+// Busca y borra TODAS las ocurrencias del elemento
+bool
+TListaCom::BorrarTodos (const TComplejo& complejo)
+{
+  // TODO
+}
+
+// Borra el elemento que ocupa la posición indicada
+bool
+TListaCom::Borrar (const TListaPos& posicion)
+{
+  // TODO
+}
+
+// Obtiene el elemento que ocupa la posición indicada
+TComplejo
+TListaCom::Obtener (const TListaPos& posicion) const
+{
+  // TODO
+}
+
+// Devuelve TRUE si el elemento está en la lista, FALSE en caso contrario
+bool
+TListaCom::Buscar (const TComplejo& complejo) const
+{
+  // TODO
+}
+
+// Sobrecarga del operador salida
+ostream& operator<< (ostream& os, const TListaCom& lista)
+{
+  // TODO
+}
+
+// Devuelve la longitud de la lista
+int
+TListaCom::Longitud () const
+{
+  int longitud = 0;
+  TListaPos posicion(primero);
+
+  while (posicion != NULL)
+  {
+    longitud++;
+    posicion = posicion.Siguiente();
+  }
+
+  return longitud;
+}
