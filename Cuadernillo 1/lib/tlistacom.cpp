@@ -191,20 +191,14 @@ TListaPos::esVacia () const
 // Constructor por defecto
 TListaCom::TListaCom ()
 {
-  primero = NULL;
-  ultimo = NULL;
+  Inic();
 }
 
 // TODO
 // Constructor de copia
 TListaCom::TListaCom (const TListaCom& lista)
 {
-  primero = new TListaNodo (*(lista.Primera().Pos()));
-
-  // while ()
-  // {
-    
-  // }
+  Copia(lista);
 }
 
 // Desctructor
@@ -277,6 +271,29 @@ TListaCom::Ultima () const
  * MÉTODOS Y FUNCIONES *
  ***********************/
 
+void
+TListaCom::Inic ()
+{
+  primero = NULL;
+  ultimo = NULL;
+}
+
+void
+TListaCom::Copia (const TListaCom& lista)
+{
+  Inic();
+  // Se crea un nodo auxiliar para recorrer la lista que se quiere copiar
+  TListaPos posicion(lista.primero);
+
+  while (posicion != NULL);
+  {
+    // Crea el nodo en la nueva lista y lo añade
+    
+    // Comprueba el siguiente nodo
+    posicion = posicion.Siguiente;
+  }
+}
+
 // Devuelve TRUE si la lista está vacía, FALSE en caso contrario
 bool
 TListaCom::esVacia () const
@@ -335,7 +352,7 @@ TListaCom::Borrar (const TListaPos& posicion)
 TComplejo
 TListaCom::Obtener (const TListaPos& posicion) const
 {
-  // TODO
+  
 }
 
 // Devuelve TRUE si el elemento está en la lista, FALSE en caso contrario
@@ -345,13 +362,7 @@ TListaCom::Buscar (const TComplejo& complejo) const
   // TODO
 }
 
-// Sobrecarga del operador salida
-ostream& operator<< (ostream& os, const TListaCom& lista)
-{
-  // TODO
-}
-
-// Devuelve la longitud de la lista
+// Devuelve el número de nodos de la lista
 int
 TListaCom::Longitud () const
 {
@@ -365,4 +376,10 @@ TListaCom::Longitud () const
   }
 
   return longitud;
+}
+
+// Sobrecarga del operador salida
+ostream& operator<< (ostream& os, const TListaCom& lista)
+{
+  // TODO
 }

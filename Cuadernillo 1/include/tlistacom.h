@@ -87,6 +87,9 @@ class TListaCom
   // Último elemento de la lista
   TListaNodo *ultimo;
 
+  void Inic();
+  void Copia(const TListaCom&);
+
   public:
   TListaCom ();
   TListaCom (const TListaCom&);
