@@ -1,7 +1,7 @@
 #include "tcomplejo.h"
 
 // Constructor
-TComplejo::TComplejo (const double &re, const double &im)
+TComplejo::TComplejo (const double& re, const double& im)
 {
   this->re = re;
   this->im = im;
@@ -9,7 +9,7 @@ TComplejo::TComplejo (const double &re, const double &im)
 }
 
 // Constructor de copia
-TComplejo::TComplejo (const TComplejo &com)
+TComplejo::TComplejo (const TComplejo& com)
 {
   Copia(com);
 }
@@ -22,7 +22,7 @@ TComplejo::~TComplejo ()
 
 // Operador asignación
 TComplejo&
-TComplejo::operator= (const TComplejo &com)
+TComplejo::operator= (const TComplejo& com)
 {
   // Se comprueba que no sea el mismo objeto
   if (this != &com) {
@@ -37,7 +37,7 @@ TComplejo::operator= (const TComplejo &com)
 
 // Lleva a cabo la copia de los valores de un objeto a otro
 void
-TComplejo::Copia (const TComplejo &com)
+TComplejo::Copia (const TComplejo& com)
 {
   re = com.Re();
   im = com.Im();
@@ -46,9 +46,9 @@ TComplejo::Copia (const TComplejo &com)
 // OPERADORES ARITMÉTICOS
 // Suma
 TComplejo
-TComplejo::operator+ (const TComplejo &com) const
+TComplejo::operator+ (const TComplejo& com) const
 {
-  TComplejo res (re + com.Re(), im + com.Im());
+  TComplejo res(re + com.Re(), im + com.Im());
 
   res.corregirCero();
 
@@ -56,15 +56,15 @@ TComplejo::operator+ (const TComplejo &com) const
 }
 
 TComplejo
-TComplejo::operator+ (const double &d) const
+TComplejo::operator+ (const double& d) const
 {
-  TComplejo com (d);
+  TComplejo com(d);
 
   return (*this) + com;
 }
 
 TComplejo
-operator+ (const double d, const TComplejo &com)
+operator+ (const double d, const TComplejo& com)
 {
   TComplejo res = com + d;
 
@@ -73,9 +73,9 @@ operator+ (const double d, const TComplejo &com)
 
 // Resta
 TComplejo
-TComplejo::operator- (const TComplejo &com) const
+TComplejo::operator- (const TComplejo& com) const
 {
-  TComplejo res (re - com.Re(), im - com.Im());
+  TComplejo res(re - com.Re(), im - com.Im());
 
   res.corregirCero();
 
@@ -83,24 +83,26 @@ TComplejo::operator- (const TComplejo &com) const
 }
 
 TComplejo
-TComplejo::operator- (const double &d) const
+TComplejo::operator- (const double& d) const
 {
-  TComplejo com (d);
+  TComplejo com(d);
 
   return (*this) - com;
 }
 
 TComplejo
-operator- (const double &d, const TComplejo &com)
+operator- (const double& d, const TComplejo& com)
 {
-  TComplejo res = com - d;
+  // TComplejo res = com - d;
+  TComplejo aux(d);
+  TComplejo res = aux - com;
 
   return res;
 }
 
 // Multiplicación
 TComplejo
-TComplejo::operator* (const TComplejo &com) const
+TComplejo::operator* (const TComplejo& com) const
 {
   TComplejo res (re * com.Re() - im * com.Im(), re * com.Im() + im * com.Re());
 
@@ -110,7 +112,7 @@ TComplejo::operator* (const TComplejo &com) const
 }
 
 TComplejo
-TComplejo::operator* (const double &d) const
+TComplejo::operator* (const double& d) const
 {
   TComplejo com (d);
 
@@ -118,7 +120,7 @@ TComplejo::operator* (const double &d) const
 }
 
 TComplejo
-operator* (const double &d, const TComplejo &com)
+operator* (const double& d, const TComplejo& com)
 {
   TComplejo res = com - d;
 
@@ -127,7 +129,7 @@ operator* (const double &d, const TComplejo &com)
 
 // OTROS OPERADORES
 bool
-TComplejo::operator== (const TComplejo &com) const
+TComplejo::operator== (const TComplejo& com) const
 {
   if ((re == com.Re()) && (im == com.Im())) {
     return true;
@@ -137,7 +139,7 @@ TComplejo::operator== (const TComplejo &com) const
 }
 
 bool
-TComplejo::operator!= (const TComplejo &com) const
+TComplejo::operator!= (const TComplejo& com) const
 {
   return !((*this) == com);
 }
@@ -156,13 +158,13 @@ TComplejo::Im () const
 }
 
 void
-TComplejo::Re (const double &d)
+TComplejo::Re (const double& d)
 {
   re = d;
 }
 
 void
-TComplejo::Im (const double &d)
+TComplejo::Im (const double& d)
 {
   im = d;
 }
@@ -200,9 +202,9 @@ TComplejo::Mod () const
 
 // Operador salida
 ostream&
-operator<< (ostream &s, const TComplejo &com)
+operator<< (ostream& s, const TComplejo& com)
 {
-  s << "(" << com.Re() << " " << com.Im() << ")";
+  s << "(" << com.re << " " << com.im << ")";
 
   return s;
 }
