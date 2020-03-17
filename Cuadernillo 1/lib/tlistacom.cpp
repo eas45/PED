@@ -99,7 +99,7 @@ TListaPos::TListaPos (TListaNodo* posNodo)
 // Constructor de copia
 TListaPos::TListaPos (const TListaPos& nuevaPosicion)
 {
-  pos = nuevaPosicion.Pos();
+  pos = nuevaPosicion.pos;
 }
 
 // Destructor
@@ -115,7 +115,7 @@ TListaPos::operator= (const TListaPos& nuevaPosicion)
   if (this != &nuevaPosicion)
   {
     this->~TListaPos();
-    pos = nuevaPosicion.Pos();
+    pos = nuevaPosicion.pos;
   }
 }
 
@@ -126,7 +126,7 @@ TListaPos::operator= (const TListaPos& nuevaPosicion)
 bool
 TListaPos::operator== (const TListaPos& posicion) const
 {
-  if (pos == posicion.Pos())
+  if (pos == posicion.pos)
   {
     return true;
   }
@@ -156,13 +156,6 @@ TListaPos
 TListaPos::Siguiente () const
 {
   return TListaPos(pos->siguiente);
-}
-
-// Devuelve el puntero que contiene el atributo 'pos'
-TListaNodo*
-TListaPos::Pos () const
-{
-  return pos;
 }
 
 /***********************

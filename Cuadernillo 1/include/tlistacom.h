@@ -69,8 +69,6 @@ class TListaPos
   TListaPos Anterior () const;
   // Devuelve la posición siguiente
   TListaPos Siguiente () const;
-  // Devuelve el puntero que contiene el atributo 'pos'
-  TListaNodo* Pos () const;
 
   // Devuelve TRUE si la posición no apunta a una lista,
   // FALSE en caso contrario
