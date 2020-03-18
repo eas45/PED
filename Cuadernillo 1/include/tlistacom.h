@@ -69,6 +69,8 @@ class TListaPos
   TListaPos Anterior () const;
   // Devuelve la posición siguiente
   TListaPos Siguiente () const;
+  // Devuelve la posición del nodo al que apunta
+  TListaNodo* Pos () const;
 
   // Devuelve TRUE si la posición no apunta a una lista,
   // FALSE en caso contrario
@@ -87,6 +89,7 @@ class TListaCom
 
   void Inic();
   void Copia(const TListaCom&);
+  void Borra();
 
   public:
   TListaCom ();

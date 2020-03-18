@@ -197,14 +197,21 @@ TListaCom::TListaCom (const TListaCom& lista)
 // Desctructor
 TListaCom::~TListaCom ()
 {
-  // TODO
+  Borra();
 }
 
 // Sobrecarga de operador asignación
 TListaCom&
 TListaCom::operator= (const TListaCom& lista)
 {
-  // TODO
+  if (this != &lista)
+  {
+    // Se destruye la lista actual
+    Borra();
+    Copia(lista);
+  }
+
+  return (*this);
 }
 
 /********************
@@ -260,10 +267,17 @@ TListaCom::Ultima () const
   return TListaPos(ultimo);
 }
 
+TListaNodo*
+TListaPos::Pos () const
+{
+  return pos;
+}
+
 /***********************
  * MÉTODOS Y FUNCIONES *
  ***********************/
 
+// Inicializa la lista vacía
 void
 TListaCom::Inic ()
 {
@@ -271,20 +285,36 @@ TListaCom::Inic ()
   ultimo = NULL;
 }
 
+/* Realiza la copia exacta de los elementos de los nodos de la lista
+*/
 void
 TListaCom::Copia (const TListaCom& lista)
 {
+  bool insercionOK = true;  // Variable que controla que la inserción haya ido bien
+
   Inic();
   // Se crea un nodo auxiliar para recorrer la lista que se quiere copiar
-  TListaPos posicion(lista.primero);
+  TListaPos posicion(lista.ultimo);
 
-  while (posicion != NULL);
-  {
-    // Crea el nodo en la nueva lista y lo añade
-    
+  while (!posicion.esVacia() && InsCabeza(posicion.pos->e))
+  { // Inserta el número complejo que tiene ese nodo en la cabeza
     // Comprueba el siguiente nodo
-    posicion = posicion.Siguiente;
+    posicion = posicion.Anterior();
   }
+}
+
+void
+TListaCom::Borra ()
+{
+  TListaPos posicionAborrar;
+
+  while (primero != NULL)
+  {
+    posicionAborrar = primero;
+    primero = primero->siguiente;
+    delete posicionAborrar.pos;
+  }
+  Inic();
 }
 
 // Devuelve TRUE si la lista está vacía, FALSE en caso contrario
@@ -299,11 +329,39 @@ TListaCom::esVacia () const
   return false;
 }
 
-// Inserta el elemento en la cabeza de la lista
+/* Inserta el elemento en la cabeza de la lista
+    Devuelve TRUE si la inserción es llevada a cabo correctamente
+    y FALSE en caso de no poder reservar memoria
+*/
 bool
 TListaCom::InsCabeza (const TComplejo& complejo)
 {
-  // TODO
+  // Se reserva memoria para el nuevo nodo
+  TListaNodo* nuevoNodo = new TListaNodo;
+
+  if (nuevoNodo != NULL)
+  {
+    // Se le da valor al número complejo del nuevo nodo
+    nuevoNodo->e = complejo;
+    if (primero != NULL)
+    { // Si había un primer nodo antes
+      // El nodo que ahora es primero tendrá como anterior al nuevo nodo
+      primero->anterior = nuevoNodo;
+    }
+    // El siguiente nodo al nuevo nodo será el que antes era el primer nodo
+    nuevoNodo->siguiente = primero;
+    // Ahora el primer nodo es el nuevo nodo
+    primero = nuevoNodo;
+    if (ultimo == NULL)
+    { // Si no había último nodo
+      // El nuevo nodo es también el último nodo
+      ultimo = primero;
+    }
+
+    return true;
+  }
+
+  return false;
 }
 
 // Inserta el elemento a la izquierda de la posición indicada
@@ -372,7 +430,18 @@ TListaCom::Longitud () const
 }
 
 // Sobrecarga del operador salida
-ostream& operator<< (ostream& os, const TListaCom& lista)
+ostream&
+operator<< (ostream& os, const TListaCom& lista)
 {
-  // TODO
+  TListaPos posicion = lista.primero;
+
+  os << "{";
+  while (posicion != NULL)
+  {
+    os << posicion.Pos()->Elemento();
+    posicion = posicion.Siguiente();
+  }
+  os << "}";
+
+  return os;
 }

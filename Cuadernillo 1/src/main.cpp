@@ -1,27 +1,27 @@
-#include <iostream>
-
-using namespace std;
-
 #include "tcomplejo.h"
+#include "tlistacom.h"
 
 int
 main(void)
 {
-  TComplejo a(0, 0);
-  TComplejo b(1, 0), c(1, 1), d(0, 1);
-  TComplejo e(-1, 1), f(-1, 0);
-  TComplejo g(-1,-1), h(0, -1);
-  TComplejo i(1, -1);;
+  TListaCom tl1;
+  TComplejo c1;
+  TComplejo c2(1, 2);
 
-  cout << a.Mod() << " " << a.Arg() << endl;
-  cout << b.Mod() << " " << b.Arg() << endl;
-  cout << c.Mod() << " " << c.Arg() << endl;
-  cout << d.Mod() << " " << d.Arg() << endl;
-  cout << e.Mod() << " " << e.Arg() << endl;
-  cout << f.Mod() << " " << f.Arg() << endl;
-  cout << g.Mod() << " " << g.Arg() << endl;
-  cout << h.Mod() << " " << h.Arg() << endl;
-  cout << i.Mod() << " " << i.Arg() << endl;
+  tl1.InsCabeza(c2);
+  tl1.InsCabeza(c1);
+  tl1.InsCabeza(c2);
+  tl1.InsCabeza(c1);
+  tl1.InsCabeza(c2);
+  tl1.InsCabeza(c1);
+  cout << tl1 << endl;
+
+  TListaCom tl2(tl1);
+  cout << tl2 << endl;
+
+  TListaCom tl3;
+  tl3 = tl2;
+  cout << tl3 << endl;
 
   return 0;
 }

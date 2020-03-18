@@ -35,8 +35,7 @@ TVectorCom::~TVectorCom ()
   if (c != NULL)
   {
     delete []c;
-    c = NULL;
-    tamano = 0;
+    Inic();
   }
 }
 
@@ -44,7 +43,6 @@ TVectorCom::~TVectorCom ()
 TVectorCom&
 TVectorCom::operator= (const TVectorCom& vector)
 {
-  // TODO
   if (this != &vector)
   {
     // Se destruye inicial
@@ -259,26 +257,27 @@ TVectorCom::PosVacia (const TComplejo& com) const
 }
 
 // OPERADOR SALIDA
-  ostream& operator<< (ostream& os, const TVectorCom& vector)
+ostream&
+operator<< (ostream& os, const TVectorCom& vector)
+{
+  bool primero = true;
+
+  os << "[";
+
+  for (int i = 1; i <= vector.tamano; i++)
   {
-    bool primero = true;
-
-    os << "[";
-
-    for (int i = 1; i <= vector.tamano; i++)
+    if (!primero)
     {
-      if (!primero)
-      {
-        os << ", ";
-      }
-      os << "(" << i << ") " << vector[i];
-      if (primero)
-      {
-        primero = false;
-      }
+      os << ", ";
     }
-
-    os << "]";
-
-    return os;
+    os << "(" << i << ") " << vector[i];
+    if (primero)
+    {
+      primero = false;
+    }
   }
+
+  os << "]";
+
+  return os;
+}
