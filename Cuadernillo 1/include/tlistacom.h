@@ -21,6 +21,8 @@ class TListaNodo
   TListaNodo *anterior;
   // El nodo siguiente
   TListaNodo *siguiente;
+  // Constructor con un elemento
+  TListaNodo (const TComplejo&);
 
   // Copia los datos de un nodo en el actual
   void Copia (const TListaNodo&);
@@ -87,9 +89,9 @@ class TListaCom
   // Último elemento de la lista
   TListaNodo *ultimo;
 
-  void Inic();
-  void Copia(const TListaCom&);
-  void Borra();
+  void Inic  ();
+  void Copia (const TListaCom&);
+  void Borra ();
 
   public:
   TListaCom ();

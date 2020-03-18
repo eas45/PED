@@ -15,6 +15,12 @@ TListaNodo::TListaNodo ()
   siguiente = NULL;
 }
 
+TListaNodo::TListaNodo (const TComplejo& complejo)
+{
+  siguiente = anterior = NULL;
+  e = complejo;
+}
+
 // Constructor de copia
 TListaNodo::TListaNodo (const TListaNodo& nodo)
 {
@@ -368,7 +374,24 @@ TListaCom::InsCabeza (const TComplejo& complejo)
 bool
 TListaCom::InsertarI (const TComplejo& complejo, const TListaPos& posicion)
 {
-  // TODO
+  if (!posicion.esVacia())
+  {
+    if (posicion.pos == primero)
+    { 
+      /* Si es primero, al insertarse a la izquierda, será como insertar un nodo a la
+          cabeza de la lista */
+      return InsCabeza(complejo);
+    }
+    else
+    {
+      TListaNodo* nuevoNodo = new TListaNodo;
+      nuevoNodo->e = complejo;
+    }
+    
+    return true;
+  }
+
+  return false;
 }
 
 // Inserta el elemento a la derecha de la posición indicada
