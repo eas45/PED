@@ -1,7 +1,6 @@
 #*/.vscode
 #*.o
 
-!./include
-!./lib
-!./src
 *
+!*/include/
+!*/src
