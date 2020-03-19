@@ -164,6 +164,12 @@ TListaPos::Siguiente () const
   return TListaPos(pos->siguiente);
 }
 
+TListaNodo*
+TListaPos::Pos () const
+{
+  return pos;
+}
+
 /***********************
  * MÉTODOS Y FUNCIONES *
  ***********************/
@@ -193,7 +199,6 @@ TListaCom::TListaCom ()
   Inic();
 }
 
-// TODO
 // Constructor de copia
 TListaCom::TListaCom (const TListaCom& lista)
 {
@@ -271,12 +276,6 @@ TListaPos
 TListaCom::Ultima () const
 {
   return TListaPos(ultimo);
-}
-
-TListaNodo*
-TListaPos::Pos () const
-{
-  return pos;
 }
 
 /***********************
@@ -377,20 +376,29 @@ TListaCom::InsertarI (const TComplejo& complejo, const TListaPos& posicion)
   if (!posicion.esVacia())
   {
     if (posicion.pos == primero)
-    { 
-      /* Si es primero, al insertarse a la izquierda, será como insertar un nodo a la
-          cabeza de la lista */
+    { // Si es el primer nodo
+      // Será como insertar un nodo a la cabeza de la lista
       return InsCabeza(complejo);
     }
     else
-    {
+    { // Si no, se hace una inserción normal a la izquierda
       TListaNodo* nuevoNodo = new TListaNodo;
-      nuevoNodo->e = complejo;
+      if (nuevoNodo != NULL)
+      {
+        nuevoNodo->e = complejo;
+        // El nodo en esta posición pasará a ser el siguiente del nuevo nodo
+        nuevoNodo->siguiente = posicion.pos;
+        // El nodo anterior del nuevo nodo será el nodo anterior de su siguiente nodo
+        nuevoNodo->anterior = posicion.pos->anterior;
+        // El nodo siguiente del anterior a la posición será el nuevo nodo
+        posicion.pos->anterior->siguiente = nuevoNodo;
+        // El nodo anterior de la posición será el nuevo nodo
+        posicion.pos->anterior = nuevoNodo;
+        return true;
+      }
     }
-    
     return true;
   }
-
   return false;
 }
 
@@ -398,7 +406,32 @@ TListaCom::InsertarI (const TComplejo& complejo, const TListaPos& posicion)
 bool
 TListaCom::InsertarD (const TComplejo& complejo, const TListaPos& posicion)
 {
-  // TODO
+  TListaNodo* nuevoNodo = new TListaNodo;
+
+  if (!posicion.esVacia() && nuevoNodo != NULL)
+  { // Si no es una posición vacía y se ha podido reservar memoria
+    nuevoNodo->e = complejo;
+    // El nodo en esta posición pasará a ser el anterior del nuevo nodo
+    nuevoNodo->anterior = posicion.pos;
+    // El nodo siguiente del nuevo nodo será el nodo siguiente de la posición
+    nuevoNodo->siguiente = posicion.pos->siguiente;
+    // El nodo siguiente de la posición será el nuevo nodo
+    posicion.pos->siguiente = nuevoNodo;
+    if (posicion.pos == ultimo)
+    { // Si es el último nodo
+      // Se actualiza el puntero de la lista
+      ultimo = nuevoNodo;
+    }
+    else
+    { // Si no es el último nodo
+      // El nodo anterior del siguiente nodo a la posición es el nuevo nodo
+      posicion.pos->siguiente->anterior = nuevoNodo;
+    }
+    
+    return true;
+  }
+
+  return false;
 }
 
 // Busca y borra LA PRIMERA ocurrencia del elemento

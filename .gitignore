@@ -1,2 +1,8 @@
-*/.vscode
-*.o
+#*/.vscode
+#*.o
+
+!./include
+!./lib
+!./src
+*
+Cuadernillo 1/tad
