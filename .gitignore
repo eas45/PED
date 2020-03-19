@@ -1,6 +1,4 @@
-#*/.vscode
-#*.o
-
-*
-!*/include/
-!*/src
+*/.vscode
+*.o
+main
+prueba
