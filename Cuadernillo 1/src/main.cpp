@@ -1,47 +1,27 @@
+/* Prueba:
+      - Funci髇 Longitud() de una TListaCom
+      - Funci髇 Buscar(TComplejo) en una TListaCom
+*/
+
+#include <iostream>
 #include "tlistacom.h"
+
+using namespace std;
 
 int
 main(void)
 {
-  TListaCom tl1;
-  TComplejo c1;
-  TComplejo c2(1, 2);
-
-  // Prueba la inserci贸n en cabeza
-  tl1.InsCabeza(c2);
-  tl1.InsCabeza(c1);
-  tl1.InsCabeza(c2);
-  tl1.InsCabeza(c1);
-  tl1.InsCabeza(c2);
-  tl1.InsCabeza(c1);
-  cout << tl1 << endl;
-
-  // Prueba el constructor de copia
-  TListaCom tl2(tl1);
-  cout << tl2 << endl;
-
-  // Prueba el operador asignaci贸n
-  TListaCom tl3;
-  tl3 = tl2;
-  cout << tl3 << endl;
-
-  // Prueba la inserci贸n a la izquierda
-  TListaCom* tl4 = new TListaCom();
-  tl4->InsCabeza(c2);
-  cout << *tl4 << endl;
-  tl4->InsertarI(c2, tl4->Primera());
-  tl4->InsertarI(c1, tl4->Ultima());
-  tl4->InsertarI(c1, tl4->Primera().Siguiente());
-  cout << *tl4 << endl;
-
-  // Prueba la inserci贸n a la derecha
-  TListaCom* tl5 = new TListaCom();
-  tl5->InsCabeza(c2);
-  cout << *tl5 << endl;
-  tl5->InsertarD(c2, tl5->Primera());
-  tl5->InsertarD(c1, tl5->Ultima());
-  tl5->InsertarD(c1, tl5->Primera().Siguiente());
-  cout << *tl5 << endl;
-
+  TComplejo a(-3, -3), b;
+  TListaCom l1;
+  
+  for (int i=0; i<10; i++) {
+         a = a + double(i);
+         l1.InsCabeza(a);
+  }
+  cout<<l1.Longitud()<<endl;
+  if (l1.Buscar(a)) cout<<"Encontrado c"<<endl;
+  else cout<<"No encontrado c"<<endl;
+  if (l1.Buscar(b)) cout<<"Encontrado b"<<endl;
+  else cout<<"No encontrado c"<<endl;
   return 0;
 }

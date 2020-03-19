@@ -76,7 +76,7 @@ class TListaPos
 
   // Devuelve TRUE si la posición no apunta a una lista,
   // FALSE en caso contrario
-  bool esVacia () const;
+  bool EsVacia () const;
 };
 
 class TListaCom
@@ -92,6 +92,7 @@ class TListaCom
   void Inic  ();
   void Copia (const TListaCom&);
   void Borra ();
+  bool Pertenece (const TListaPos&) const;
 
   public:
   TListaCom ();
@@ -107,13 +108,13 @@ class TListaCom
   TListaPos Primera () const;
   TListaPos Ultima () const;
 
-  bool esVacia () const;
+  bool EsVacia () const;
   bool InsCabeza (const TComplejo&);
   bool InsertarI (const TComplejo&, const TListaPos&);
   bool InsertarD (const TComplejo&, const TListaPos&);
   bool Borrar (const TComplejo&);
   bool BorrarTodos (const TComplejo&);
-  bool Borrar (const TListaPos&);
+  bool Borrar (TListaPos&);
   TComplejo Obtener (const TListaPos&) const;
   bool Buscar (const TComplejo&) const;
   int Longitud () const;

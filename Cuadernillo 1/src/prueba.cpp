@@ -43,5 +43,21 @@ main(void)
   tl5->InsertarD(c1, tl5->Primera().Siguiente());
   cout << *tl5 << endl;
 
+  // Prueba la función borrar posición
+  TListaPos pos = tl4->Primera();
+  if (tl4->Borrar(pos))
+  {
+    cout << "Borrado 1" << endl;
+  }
+  cout << *tl4 << endl;
+  pos = tl5->Primera();
+  if (tl4->Borrar(pos))
+  {
+    cout << "Borrado 2" << endl;
+  }
+
+  tl4->~TListaCom();
+  tl5->~TListaCom();
+
   return 0;
 }

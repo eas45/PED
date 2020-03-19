@@ -30,11 +30,8 @@ TListaNodo::TListaNodo (const TListaNodo& nodo)
 // Destructor
 TListaNodo::~TListaNodo ()
 {
-  if (anterior != NULL || siguiente != NULL)
-  {
-    anterior = NULL;
-    siguiente = NULL;
-  }
+  anterior = NULL;
+  siguiente = NULL;
 }
 
 // Operador asignación
@@ -175,7 +172,7 @@ TListaPos::Pos () const
  ***********************/
 
 bool
-TListaPos::esVacia () const
+TListaPos::EsVacia () const
 {
   if (pos == NULL)
   {
@@ -234,14 +231,27 @@ TListaCom::operator= (const TListaCom& lista)
 bool
 TListaCom::operator== (const TListaCom& lista) const
 {
-  // TODO
+  TListaPos posicionLista1(primero);
+  TListaPos posicionLista2(lista.primero);
+
+  while (!posicionLista1.EsVacia() || !posicionLista2.EsVacia())
+  {
+    posicionLista1 = posicionLista1.pos->siguiente;
+    posicionLista2 = posicionLista2.pos->siguiente;
+    if (posicionLista1.pos->e != posicionLista2.pos->e)
+    {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 // Sobrecarga del operador desigualdad
 bool
 TListaCom::operator!= (const TListaCom& lista) const
 {
-  // TODO
+  return !(*this == lista);
 }
 
 /* Sobrecarga del operador suma
@@ -251,13 +261,31 @@ TListaCom::operator!= (const TListaCom& lista) const
 TListaCom
 TListaCom::operator+ (const TListaCom& lista) const
 {
-  // TODO
+  TListaCom resultado(lista);
+  TListaPos posicion(ultimo);
+
+  while (!posicion.EsVacia())
+  {
+    resultado.InsCabeza(posicion.pos->e);
+    posicion = posicion.pos->siguiente;
+  }
+
+  return resultado;
 }
 
 TListaCom
 TListaCom::operator- (const TListaCom& lista) const
 {
-  // TODO
+  TListaCom resultado(*this);
+  TListaPos posicion(lista.primero);
+
+  while (!posicion.EsVacia())
+  {
+    resultado.Borrar(posicion.pos->e);
+    posicion = posicion.pos->siguiente;
+  }
+
+  return resultado;
 }
 
 /*********************
@@ -301,7 +329,7 @@ TListaCom::Copia (const TListaCom& lista)
   // Se crea un nodo auxiliar para recorrer la lista que se quiere copiar
   TListaPos posicion(lista.ultimo);
 
-  while (!posicion.esVacia() && InsCabeza(posicion.pos->e))
+  while (!posicion.EsVacia() && InsCabeza(posicion.pos->e))
   { // Inserta el número complejo que tiene ese nodo en la cabeza
     // Comprueba el siguiente nodo
     posicion = posicion.Anterior();
@@ -324,13 +352,33 @@ TListaCom::Borra ()
 
 // Devuelve TRUE si la lista está vacía, FALSE en caso contrario
 bool
-TListaCom::esVacia () const
+TListaCom::EsVacia () const
 {
   if (primero == NULL && ultimo == NULL)
   {
     return true;
   }
 
+  return false;
+}
+
+/* Recorre la lista y comprueba si la posición pertenece a la lista
+    Devolverá TRUE si la posición pertenece a la lista y
+    FALSE en el caso contrario
+*/
+bool
+TListaCom::Pertenece (const TListaPos& posicion) const
+{
+  TListaPos posLista = primero;
+
+  while (posLista != NULL)
+  {
+    if (posLista == posicion)
+    {
+      return true;
+    }
+    posLista = posLista.pos->siguiente;
+  }
   return false;
 }
 
@@ -373,7 +421,7 @@ TListaCom::InsCabeza (const TComplejo& complejo)
 bool
 TListaCom::InsertarI (const TComplejo& complejo, const TListaPos& posicion)
 {
-  if (!posicion.esVacia())
+  if (!posicion.EsVacia())
   {
     if (posicion.pos == primero)
     { // Si es el primer nodo
@@ -408,7 +456,7 @@ TListaCom::InsertarD (const TComplejo& complejo, const TListaPos& posicion)
 {
   TListaNodo* nuevoNodo = new TListaNodo;
 
-  if (!posicion.esVacia() && nuevoNodo != NULL)
+  if (!posicion.EsVacia() && nuevoNodo != NULL)
   { // Si no es una posición vacía y se ha podido reservar memoria
     nuevoNodo->e = complejo;
     // El nodo en esta posición pasará a ser el anterior del nuevo nodo
@@ -438,35 +486,109 @@ TListaCom::InsertarD (const TComplejo& complejo, const TListaPos& posicion)
 bool
 TListaCom::Borrar (const TComplejo& complejo)
 {
-  // TODO
+  TListaPos posicion(primero);
+
+  while (!posicion.EsVacia())
+  {
+    if (posicion.pos->e == complejo)
+    {
+      return Borrar(posicion);
+    }
+    posicion = posicion.pos->siguiente;
+  }
+
+  return false;
 }
 
 // Busca y borra TODAS las ocurrencias del elemento
 bool
 TListaCom::BorrarTodos (const TComplejo& complejo)
 {
-  // TODO
+  TListaPos posicion(primero);
+  TListaPos posicionAborrar;
+
+  while (!posicion.EsVacia())
+  {
+    if (posicion.pos->e == complejo)
+    {
+      posicionAborrar = posicion;
+      posicion = posicion.pos->siguiente;
+      Borrar(posicionAborrar);
+    }
+    else
+    {
+      posicion = posicion.pos->siguiente;
+    }
+  }
+
+  return !posicionAborrar.EsVacia();
 }
 
 // Borra el elemento que ocupa la posición indicada
 bool
-TListaCom::Borrar (const TListaPos& posicion)
+TListaCom::Borrar (TListaPos& posicion)
 {
-  // TODO
+  if (Pertenece(posicion))
+  { // Si la posición pertenece a la lista, se puede borrar
+    // Se enlaza los nodos adyacentes entre sí
+    if (!posicion.Anterior().EsVacia())
+    { // Si tiene una posición anterior
+      // El nodo siguiente del anterior a la posición será el siguiente
+      posicion.pos->anterior->siguiente = posicion.pos->siguiente;
+    }
+    else
+    { // Si no tiene, es que es primero
+      // Primero apuntará al siguiente nodo
+      primero = posicion.pos->siguiente;
+    }
+    
+    if (!posicion.Siguiente().EsVacia())
+    { // Si tiene un posición siguiente
+      // El nodo anterior del siguiente a la posición será el anterior
+      posicion.pos->siguiente->anterior = posicion.pos->anterior;
+    }
+    else
+    { // Sino tiene, es que es último
+      ultimo = posicion.pos->anterior;
+    }
+    
+    // Se borra la posición actual
+    delete posicion.pos;
+    posicion.~TListaPos();
+
+    return posicion.EsVacia();
+  }
+
+  return false;
 }
 
 // Obtiene el elemento que ocupa la posición indicada
 TComplejo
 TListaCom::Obtener (const TListaPos& posicion) const
 {
-  
+  if (!posicion.EsVacia())
+  {
+    return posicion.pos->e;
+  }
+
+  return TComplejo();
 }
 
 // Devuelve TRUE si el elemento está en la lista, FALSE en caso contrario
 bool
 TListaCom::Buscar (const TComplejo& complejo) const
 {
-  // TODO
+  TListaPos posicion(primero);
+
+  while (!posicion.EsVacia())
+  {
+    if (posicion.pos->e == complejo)
+    {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 // Devuelve el número de nodos de la lista
