@@ -1,5 +1,9 @@
 #include "tcomplejo.h"
 
+/******************
+ * FORMA CANÓNICA *
+ ******************/
+
 // Constructor
 TComplejo::TComplejo (const double& re, const double& im)
 {

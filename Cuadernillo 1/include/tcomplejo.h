@@ -18,7 +18,7 @@ class TComplejo {
     double re;  // PARTE REAL
     double im;  // PARTE IMAGINARIA
 
-    void Copia(const TComplejo&);  // Realiza la copia del objeto
+    void Copia(const TComplejo&);
     void corregirCero();  // Comprueba si hay un -0.0 y lo corrige
 
   public:

@@ -20,15 +20,10 @@ class TVectorCom
   bool PosVacia (const TComplejo&) const;
 
   public:
-  // Constructor por defecto
   TVectorCom ();
-  // Constructor a partir de un tamaño
   TVectorCom (const int&);
-  // Constructor de copia
   TVectorCom (const TVectorCom&);
-  // Destructor
   ~TVectorCom ();
-  // Sobrecarga del operador asignación
   TVectorCom& operator= (const TVectorCom&);
 
   // Sobrecarga operador igualdad

@@ -84,10 +84,8 @@ class TListaCom
   friend ostream& operator<< (ostream&, const TListaCom&);
 
   private:
-  // Primer elemento de la lista
-  TListaNodo *primero;
-  // Último elemento de la lista
-  TListaNodo *ultimo;
+  TListaNodo *primero;    // Primer elemento de la lista
+  TListaNodo *ultimo;     // Último elemento de la lista
 
   void Inic  ();
   void Copia (const TListaCom&);
