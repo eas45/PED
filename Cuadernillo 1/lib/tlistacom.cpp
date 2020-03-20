@@ -234,17 +234,22 @@ TListaCom::operator== (const TListaCom& lista) const
   TListaPos posicionLista1(primero);
   TListaPos posicionLista2(lista.primero);
 
-  while (!posicionLista1.EsVacia() || !posicionLista2.EsVacia())
+  while (!posicionLista1.EsVacia() && !posicionLista2.EsVacia())
   {
-    posicionLista1 = posicionLista1.pos->siguiente;
-    posicionLista2 = posicionLista2.pos->siguiente;
     if (posicionLista1.pos->e != posicionLista2.pos->e)
     {
       return false;
     }
+    posicionLista1 = posicionLista1.pos->siguiente;
+    posicionLista2 = posicionLista2.pos->siguiente;
   }
 
-  return true;
+  if (posicionLista1 == posicionLista2)
+  {
+    return true;
+  }
+
+  return false;
 }
 
 // Sobrecarga del operador desigualdad
@@ -267,7 +272,7 @@ TListaCom::operator+ (const TListaCom& lista) const
   while (!posicion.EsVacia())
   {
     resultado.InsCabeza(posicion.pos->e);
-    posicion = posicion.pos->siguiente;
+    posicion = posicion.pos->anterior;
   }
 
   return resultado;
@@ -586,6 +591,7 @@ TListaCom::Buscar (const TComplejo& complejo) const
     {
       return true;
     }
+    posicion = posicion.pos->siguiente;
   }
 
   return false;
@@ -612,10 +618,20 @@ ostream&
 operator<< (ostream& os, const TListaCom& lista)
 {
   TListaPos posicion = lista.primero;
+  bool primero = true;
 
   os << "{";
   while (posicion != NULL)
   {
+    if (!primero)
+    {
+      os << " ";
+    }
+    else
+    {
+      primero = false;
+    }
+    
     os << posicion.Pos()->Elemento();
     posicion = posicion.Siguiente();
   }

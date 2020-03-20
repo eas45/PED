@@ -1,6 +1,6 @@
 /* Prueba:
-      - Función Longitud() de una TListaCom
-      - Función Buscar(TComplejo) en una TListaCom
+      - FunciÃ³n Longitud() de una TListaCom
+      - FunciÃ³n Buscar(TComplejo) en una TListaCom
 */
 
 #include <iostream>
