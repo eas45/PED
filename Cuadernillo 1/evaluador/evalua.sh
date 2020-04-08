@@ -13,4 +13,3 @@ for FILE in *PRUEBA/tad*.cpp ; do
 		echo "ERROR"
 	fi
 done
-

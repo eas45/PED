@@ -68,7 +68,7 @@ TComplejo::operator+ (const double& d) const
 }
 
 TComplejo
-operator+ (const double d, const TComplejo& com)
+operator+ (const double& d, const TComplejo& com)
 {
   TComplejo res = com + d;
 
@@ -126,7 +126,7 @@ TComplejo::operator* (const double& d) const
 TComplejo
 operator* (const double& d, const TComplejo& com)
 {
-  TComplejo res = com - d;
+  TComplejo res = com * d;
 
   return res;
 }

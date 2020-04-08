@@ -151,14 +151,28 @@ TListaPos::operator!= (const TListaPos& posicion) const
 TListaPos
 TListaPos::Anterior () const
 {
-  return TListaPos(pos->anterior);
+  TListaPos posicionAnterior;
+
+  if (pos != NULL)
+  {
+    posicionAnterior = pos->anterior;
+  }
+
+  return posicionAnterior;
 }
 
 // Devuelve la posición siguiente
 TListaPos
 TListaPos::Siguiente () const
 {
-  return TListaPos(pos->siguiente);
+  TListaPos posicionSiguiente;
+
+  if (pos != NULL)
+  {
+    posicionSiguiente = pos->siguiente;
+  }
+
+  return posicionSiguiente;
 }
 
 TListaNodo*
@@ -281,13 +295,19 @@ TListaCom::operator+ (const TListaCom& lista) const
 TListaCom
 TListaCom::operator- (const TListaCom& lista) const
 {
-  TListaCom resultado(*this);
-  TListaPos posicion(lista.primero);
+  TListaCom resultado;
+  // Se recorrerá la lista desde el final
+  TListaPos posicion(Ultima());
 
   while (!posicion.EsVacia())
   {
-    resultado.Borrar(posicion.pos->e);
-    posicion = posicion.pos->siguiente;
+    if (!lista.Buscar(posicion.pos->e))
+    { // Si el número complejo de la posición NO está en la lista
+      // Se añade al resultado
+      resultado.InsCabeza(posicion.pos->e);
+    }
+    // Se cambia a la posición anterior
+    posicion = posicion.pos->anterior;
   }
 
   return resultado;
@@ -328,8 +348,6 @@ TListaCom::Inic ()
 void
 TListaCom::Copia (const TListaCom& lista)
 {
-  bool insercionOK = true;  // Variable que controla que la inserción haya ido bien
-
   Inic();
   // Se crea un nodo auxiliar para recorrer la lista que se quiere copiar
   TListaPos posicion(lista.ultimo);
@@ -468,8 +486,6 @@ TListaCom::InsertarD (const TComplejo& complejo, const TListaPos& posicion)
     nuevoNodo->anterior = posicion.pos;
     // El nodo siguiente del nuevo nodo será el nodo siguiente de la posición
     nuevoNodo->siguiente = posicion.pos->siguiente;
-    // El nodo siguiente de la posición será el nuevo nodo
-    posicion.pos->siguiente = nuevoNodo;
     if (posicion.pos == ultimo)
     { // Si es el último nodo
       // Se actualiza el puntero de la lista
@@ -480,6 +496,8 @@ TListaCom::InsertarD (const TComplejo& complejo, const TListaPos& posicion)
       // El nodo anterior del siguiente nodo a la posición es el nuevo nodo
       posicion.pos->siguiente->anterior = nuevoNodo;
     }
+    // El nodo siguiente de la posición será el nuevo nodo
+    posicion.pos->siguiente = nuevoNodo;
     
     return true;
   }

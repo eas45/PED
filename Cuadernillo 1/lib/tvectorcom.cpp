@@ -126,7 +126,7 @@ TVectorCom::Ocupadas () const
 {
   int nOcupadas = 0;    // Número de posiciones ocupadas
 
-  for (int i = 1; i <= tamano; i++)
+  for (int i = 0; i < tamano; i++)
   {
     if (!PosVacia(c[i]))
     {
@@ -144,7 +144,7 @@ TVectorCom::Ocupadas () const
 bool
 TVectorCom::ExisteCom (const TComplejo& com) const
 {
-  for (int i = 1; i <= tamano; i++)
+  for (int i = 0; i < tamano; i++)
   {
     if (com == c[i])
     {
@@ -182,12 +182,19 @@ TVectorCom::MostrarComplejos (const double& d) const
 bool
 TVectorCom::Redimensionar (const int& nuevoTamano)
 {
-  if (nuevoTamano > 0)
+  if (nuevoTamano > 0 && nuevoTamano != tamano)
   {
     // Se crea un vector TComplejo nuevo
     TComplejo *nuevoVector = new TComplejo[nuevoTamano];
     // Se copian los datos que se tienen en el vector al nuevo
     Copia(nuevoVector, nuevoTamano);
+    // Se cambia el tamaño
+    tamano = nuevoTamano;
+    // Se elimina el contenido al que se apuntaba anteriormente
+    delete []c;
+    // Se apunta al nuevo contenido del vector
+    c = nuevoVector;
+    
     return true;
   }
 

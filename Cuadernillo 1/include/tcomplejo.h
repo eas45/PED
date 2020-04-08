@@ -10,9 +10,9 @@ class TComplejo {
   // Sobrecarga del operador SALIDA
   friend ostream& operator<< (ostream&, const TComplejo&);
 
-  friend TComplejo operator+ (const double, const TComplejo&);
-  friend TComplejo operator- (const double, const TComplejo&);
-  friend TComplejo operator* (const double, const TComplejo&);
+  friend TComplejo operator+ (const double&, const TComplejo&);
+  friend TComplejo operator- (const double&, const TComplejo&);
+  friend TComplejo operator* (const double&, const TComplejo&);
 
   private:
     double re;  // PARTE REAL
