@@ -2,28 +2,10 @@
 #define _TABBCOM_
 
 #include "tvectorcom.h"
+#include <queue>
 
-class TNodoABB
-{
-  friend class TABBCom;
-
-  private:
-    // El elemento del nodo
-    TComplejo item;
-    // Subárbol izquierdo y derecho
-    TABBCom iz, de;
-    // MÉTODOS
-    void Inic ();
-    void Copia (const TNodoABB&);
-    bool EsHoja () const;
-
-  public:
-    // FORMA CANÓNICA
-    TNodoABB ();
-    TNodoABB (const TNodoABB&);
-    ~TNodoABB ();
-    TNodoABB& operator= (const TNodoABB&);
-};
+class TNodoABB;
+class TABBCom;
 
 class TABBCom
 {
@@ -36,14 +18,17 @@ class TABBCom
     // Item_error
     TComplejo error;
     // AUXILIAR : Devuelve el recorrido en inorden
-    void InordenAux (TVectorCom&, int&);
+    void InordenAux (TVectorCom&, int&) const;
     // AUXILIAR : Devuelve el recorrido en preorden
-    void PreordenAux (TVectorCom&, int&);
+    void PreordenAux (TVectorCom&, int&) const;
     // AUXILIAR : Devuelve el recorrido en postorden
-    void PostordenAux (TVectorCom&, int&);
+    void PostordenAux (TVectorCom&, int&) const;
     // MÉTODOS
     void Inic ();
     void Copia (const TABBCom&);
+    void BorrarHoja (const TComplejo&);
+    TComplejo Mayor ();
+    void BorrarAux (TNodoABB*, const TComplejo&);
 
   public:
     // FORMA CANÓNICA
@@ -66,6 +51,27 @@ class TABBCom
     TVectorCom Preorden () const;
     TVectorCom Postorden () const;
     TVectorCom Niveles () const;
+};
+
+class TNodoABB
+{
+  friend class TABBCom;
+
+  private:
+    // El elemento del nodo
+    TComplejo item;
+    // Subárbol izquierdo y derecho
+    TABBCom iz, de;
+    void Copia (const TNodoABB&);
+    bool EsHoja () const;
+
+  public:
+    // FORMA CANÓNICA
+    TNodoABB ();
+    TNodoABB (const TComplejo&);
+    TNodoABB (const TNodoABB&);
+    ~TNodoABB ();
+    TNodoABB& operator= (const TNodoABB&);
 };
 
 #endif

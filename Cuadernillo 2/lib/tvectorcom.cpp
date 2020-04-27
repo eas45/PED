@@ -62,7 +62,7 @@ TVectorCom::operator== (const TVectorCom& vector) const
 {
   if (tamano == vector.Tamano())
   {
-    for (int i = 1; i <= tamano; i++)
+    for (int i = 0; i < tamano; i++)
     {
       if (c[i] != vector.c[i])
       {

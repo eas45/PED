@@ -50,6 +50,7 @@ class TComplejo {
     // OTROS OPERADORES
     bool operator== (const TComplejo&) const; // IGUALDAD de números complejos
     bool operator!= (const TComplejo&) const;  // DESIGUALDAD de números complejos
+    bool operator< (const TComplejo&) const;
 
     double Re () const;  // Devuelve PARTE REAL
     double Im () const;  // Devuelve PARTE IMAGINARIA

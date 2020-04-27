@@ -148,6 +148,33 @@ TComplejo::operator!= (const TComplejo& com) const
   return !((*this) == com);
 }
 
+bool
+TComplejo::operator< (const TComplejo& com) const
+{
+  if (Mod() < com.Mod())
+  {
+    return true;
+  }
+
+  if (Mod() == com.Mod())
+  {
+    if (Re() < com.Re())
+    {
+      return true;
+    }
+
+    if (Re() == com.Re())
+    {
+      if (Im() < com.Im())
+      {
+        return true;
+      }
+    }
+  }
+  
+  return false;
+}
+
 // GETTERS Y SETTERS
 double
 TComplejo::Re () const
