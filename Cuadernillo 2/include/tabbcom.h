@@ -28,7 +28,7 @@ class TABBCom
     void Copia (const TABBCom&);
     void BorrarHoja (const TComplejo&);
     TComplejo Mayor ();
-    void BorrarAux (TNodoABB*, const TComplejo&);
+    void BorrarAux (TABBCom*, const TComplejo&);
 
   public:
     // FORMA CANÓNICA

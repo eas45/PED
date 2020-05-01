@@ -48,18 +48,15 @@ TNodoABB::operator= (const TNodoABB& nodo)
 void
 TNodoABB::Copia (const TNodoABB& nodo)
 {
-  // Inic();
   // Copia el valor del item del nodo
   item = nodo.item;
   // Copia ambos los subárboles hijo
   if (!nodo.iz.EsVacio())
   {
-    //iz.Copia(nodo.iz);
     iz = nodo.iz;
   }
   if (!nodo.de.EsVacio())
   {
-    //de.Copia(nodo.de);
     de = nodo.de;
   }
 }
@@ -176,65 +173,183 @@ TABBCom::Insertar (const TComplejo& complejo)
   return false;
 }
 
+// Busca el nodo mayor del árbol moviéndose hacia la derecha
+TComplejo
+TABBCom::Mayor ()
+{
+  if (!nodo->de.EsVacio())
+  { // Si se puede ir más hacia la derecha
+    // Se sigue buscando 
+    return nodo->de.Mayor();
+  }
+  // Si no, se está en el nodo mayor
+  return nodo->item;
+}
+
+void
+TABBCom::BorrarAux (TABBCom* padre, const TComplejo& complejo)
+{
+  if (complejo != Raiz())
+  { // Si no es
+    if (complejo < Raiz())
+    { // Si es menor, va por la izquierda
+      nodo->iz.BorrarAux(this, complejo);
+    }
+    else
+    { // Si no, por la derecha
+      nodo->de.BorrarAux(this, complejo);
+    }
+  }
+  else
+  { // Si es ese
+    if (nodo->EsHoja())
+    { // Comprueba si es hoja
+      if (padre != NULL)
+      { // Si tiene padre
+        if (&padre->nodo->iz == this)
+        { // Comprueba si es el hijo de la izquierda
+          // Lo elimina
+          padre->nodo->iz.~TABBCom();
+        }
+        else
+        { // Si es el hijo de la derecha
+          // Lo elimina
+          padre->nodo->de.~TABBCom();
+        }
+      }
+      else
+      { // Si no tiene padre (es un árbol hoja)
+        // Se elimina sin más
+        this->~TABBCom();
+      }
+    }
+    else if (nodo->iz.EsVacio())
+    { // Si el árbol izdo es vacío, tiene un árbol dcho
+      // Se copia el hijo dcho
+      TABBCom arbolAux(nodo->de);
+      if (padre != NULL)
+      { // Si tiene padre
+        if (&padre->nodo->iz == this)
+        { // Comprueba si es el hijo de la izquierda
+          // Lo intercambia
+          padre->nodo->iz = arbolAux;
+        }
+        else
+        { // Si es el hijo de la derecha
+          // Lo intercambia
+          padre->nodo->de = arbolAux;
+        }
+      }
+      else
+      { // Si no tiene padre
+        // Se intercambia por su hijo
+        (*this) = arbolAux;
+      }
+    }
+    else if (nodo->de.EsVacio())
+    { // Si el árbol decho es vacío, tiene un árbol izdo
+      // Se copia el hijo izdo
+      TABBCom arbolAux(nodo->iz);
+      if (padre != NULL)
+      { // Si tiene padre
+        if (&padre->nodo->iz == this)
+        { // Comprueba si es el hijo de la izquierda
+          // Lo intercambia
+          padre->nodo->iz = arbolAux;
+        }
+        else
+        { // Si es el hijo de la derecha
+          // Lo intercambia
+          padre->nodo->de = arbolAux;
+        }
+      }
+      else
+      { // Si no tiene padre
+        // Se intercambia por su hijo
+        (*this) = arbolAux;
+      }
+    }
+    else
+    { // Si tiene 2 hijos
+      // Busca el mayor nodo del hijo izquierdo
+      TComplejo itemAux = nodo->iz.Mayor();
+      // Se elimina el mayor nodo del hijo izquierdo
+      BorrarAux(this, itemAux);
+      // Se guarda el valor del mayor en el nodo actual
+      nodo->item = itemAux;
+    }
+  }
+  
+  
+  // Si no tiene hijo izquierdo, coge el hijo derecho
+  // Si no tiene hijo derecho, coge el hijo izquierdo
+  // Si no, coge el mayor por la izquierda
+  
+}
+
 bool
 TABBCom::Borrar (const TComplejo& complejo)
 {
   if (Buscar(complejo))
   { // Si está en el árbol
-    TVectorCom inorden(Inorden());
-    TVectorCom preorden(Preorden());
-    int posicion = 0;
-    TComplejo intercambiar;
-    bool encontrado = false;
+    // Se busca con una función auxiliar recursiva
+    BorrarAux(NULL, complejo);
 
-    // Cuando es un árbol hoja
-    if (nodo->EsHoja())
-    {
-      this->~TABBCom();
-      return true;
-    }
-    // Cuando no es un árbol hoja
-    // Busco en inorden el elemento
-    for (int i = 1; i <= inorden.Tamano() && posicion == 0; i++)
-    {
-      if (inorden[i] == complejo)
-      {
-        posicion = i;
-      }
-    }
 
-    if (posicion == 1)
-    {
-      // Eliminar el nodo con un hijo a la derecha
-      for (int i = 1; i <= preorden.Tamano() && !encontrado; i++)
-      {
-        if (complejo == preorden[i])
-        { // Cuando encuentra el elemento en el recorrido preorden
-          // Se guarda el siguiente para ser intercambiado
-          intercambiar = preorden[i+1];
-          encontrado = true;
-        }
-      }
-    }
-    else
-    {
-      intercambiar = inorden[posicion - 1];
-    }
+  //   TVectorCom inorden(Inorden());
+  //   TVectorCom preorden(Preorden());
+  //   int posicion = 0;
+  //   TComplejo intercambiar;
+  //   bool encontrado = false;
+
+  //   // Cuando es un árbol hoja
+  //   if (nodo->EsHoja())
+  //   {
+  //     this->~TABBCom();
+  //     return true;
+  //   }
+  //   // Cuando no es un árbol hoja
+  //   // Busco en inorden el elemento
+  //   for (int i = 1; i <= inorden.Tamano() && posicion == 0; i++)
+  //   {
+  //     if (inorden[i] == complejo)
+  //     {
+  //       posicion = i;
+  //     }
+  //   }
+  //   if (posicion == 1)
+  //   {
+  //     cout << "eliminar nodo con hijo A LA DERECHA" << endl;
+  //     // Eliminar el nodo con un hijo a la derecha
+  //     for (int i = 1; i <= preorden.Tamano() && !encontrado; i++)
+  //     {
+  //       if (complejo == preorden[i])
+  //       { // Cuando encuentra el elemento en el recorrido preorden
+  //         // Se guarda el siguiente para ser intercambiado
+  //         intercambiar = preorden[i+1];
+  //         encontrado = true;
+  //       }
+  //     }
+  //   }
+  //   else
+  //   {
+  //     intercambiar = inorden[posicion - 1];
+  //   }
     
-    // Se destruye
-    this->~TABBCom();
-    // Se reconstruye
-    for (int i = 1; i <= preorden.Tamano(); i++)
-    {
-      if (preorden[i] != complejo && preorden[i] != intercambiar)
-      { // Es un nodo más, se debe añadir
-        Insertar(preorden[i]);
-      }
-      else if (preorden[i] == complejo)
-      { // Es el elemento que se debe intercambiar
-        Insertar(intercambiar);
-      }
-    }
+  //   // Se destruye
+  //   this->~TABBCom();
+  //   // Se reconstruye
+  //   for (int i = 1; i <= preorden.Tamano(); i++)
+  //   {
+  //     if (preorden[i] != complejo && preorden[i] != intercambiar)
+  //     { // Es un nodo más, se debe añadir
+  //       Insertar(preorden[i]);
+  //     }
+  //     else if (preorden[i] == complejo)
+  //     { // Es el elemento que se debe intercambiar
+  //       Insertar(intercambiar);
+  //     }
+  //   }
 
     return true;
   }
@@ -493,8 +608,7 @@ TABBCom::Niveles () const
 
 ostream& operator<< (ostream& os, const TABBCom& arbol)
 {
-  TVectorCom v(arbol.Niveles());
-  os << v;
+  os << arbol.Niveles();
 
   return os;
 }

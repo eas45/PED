@@ -1,12 +1,18 @@
 #include "tabbcom.h"
 
 /*
-  Criterios de ordenación:
-  Comprobar que se insertan los números complejos
-  en el orden correcto
-  1) Módulo
-  2) Parte real
-  3) Parte imaginaria
+  -Criterios de ordenación:
+    Comprobar que se insertan los números complejos
+    en el orden correcto
+    1) Módulo
+    2) Parte real
+    3) Parte imaginaria
+
+  -Función Insetar (const TComplejo&)
+    Comprobar que:
+    1) No se inserta un elemento ya existente
+    2) Inserción en todo tipo de árboles
+    3) Inserción en cualquier tipo de nodo
 */
 
 int main ()
@@ -25,11 +31,11 @@ int main ()
 
   if (recorridoIn == arbol1.Inorden())
   {
-    cout << "OK - Inserción arbol1\n";
+    cout << "OK - Insercion arbol1\n";
   }
   else
   {
-    cout << "ERROR - Inserción arbol1\n";
+    cout << "ERROR - Insercion arbol1\n";
   }
   
   TABBCom arbol2;
@@ -43,14 +49,15 @@ int main ()
 
   if (recorridoIn == arbol2.Inorden())
   {
-    cout << "OK - Inserción arbol2\n";
+    cout << "OK - Insercion arbol2\n";
   }
   else
   {
-    cout << "ERROR - Inserción arbol2\n";
+    cout << "ERROR - Insercion arbol2\n";
   }
 
-  // Comprobación de todos los elementos
+  // Comprobación de inserción con todos los elementos
+  // y la correcta ordenación
   //            b
   //          /   \ 
   //         c     d
@@ -74,11 +81,32 @@ int main ()
 
   if (arbol3.Inorden() == inorden)
   {
-    cout << "OK - Inserción arbol3\n";
+    cout << "OK - Insercion arbol3\n";
   }
   else
   {
-    cout << "ERROR - Inserción arbol3\n";
+    cout << "ERROR - Insercion arbol3\n";
+  }
+
+  // Inserción árbol vacío
+  TABBCom arbolvacio;
+  arbolvacio.Insertar(a);
+
+  if (!arbolvacio.EsVacio())
+  {
+    cout << "OK - Insercion vacio\n";
+    cout << arbolvacio << endl;
+  }
+
+  // Comprobación de inserción con elementos repetidos
+  arbolvacio.Insertar(TComplejo());
+  
+  cout << arbolvacio << endl;
+
+  if (!arbolvacio.Insertar(TComplejo()))
+  {
+    cout << "OK - Insercion elemento repetido" << endl;
+    cout << arbolvacio << endl;
   }
 
   return 0;
