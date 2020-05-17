@@ -10,15 +10,16 @@
 */
 
 // Constructor por defecto
-TNodoAVL::TNodoAVL ()
+TNodoAVL::TNodoAVL (const int& fe = 0)
 {
-  // Sin implementación
+  this->fe = fe;
 }
 
 // Constructor con el valor del item
-TNodoAVL::TNodoAVL (const TComplejo& complejo)
+TNodoAVL::TNodoAVL (const TComplejo& complejo, const int& fe = 0)
 {
   item = complejo;
+  this->fe = fe;
 }
 
 // Constructor de copia
@@ -30,7 +31,7 @@ TNodoAVL::TNodoAVL (const TNodoAVL& nodo)
 // Destructor
 TNodoAVL::~TNodoAVL ()
 {
-  // Sin implementación
+  fe = 0;
 }
 
 TNodoAVL&
@@ -45,11 +46,17 @@ TNodoAVL::operator= (const TNodoAVL& nodo)
   return (*this);
 }
 
+/////////////
+// MÉTODOS //
+/////////////
+
 void
 TNodoAVL::Copia (const TNodoAVL& nodo)
 {
   // Copia el valor del item del nodo
   item = nodo.item;
+  // Copia el valor de factor de equilibrio
+  fe = nodo.fe;
   // Copia ambos los subárboles hijo
   if (!nodo.iz.EsVacio())
   {
@@ -69,6 +76,13 @@ TNodoAVL::EsHoja () const
     return true;
   }
   return false;
+}
+
+// Devuelve el factor de equilibrio del nodo (hr - hl)
+int
+TNodoAVL::FactorEquilibrio () const
+{
+  return (de.Altura() - iz.Altura());
 }
 
 /***********
@@ -159,24 +173,60 @@ TAVLCom::EsVacio () const
 }
 
 bool
-TAVLCom::Insertar (const TComplejo& complejo)
+TAVLCom::InsertarAux (const TComplejo& complejo, bool& crece)
 {
+  // Devuelve si se ha podido insertar o no
+  bool ok, creceIz, creceDe = false;
+
   if (EsVacio())
   { // Si el árbol está vacío
     // Se inserta
     nodo = new TNodoAVL(complejo);
-    return true;
+    ok = crece = true;
   }
-  if (complejo != Raiz())
+  else if (complejo != Raiz())
   {
     if (complejo < Raiz())
     {
-      return nodo->iz.Insertar(complejo);
+      ok = nodo->iz.InsertarAux(complejo, crece);
+      creceIz = crece;
     }
-    return nodo->de.Insertar(complejo);
+    else
+    {
+      ok = nodo->de.InsertarAux(complejo, crece);
+      creceDe = crece;
+    }
+
+    if (creceIz || creceDe)
+    { // Si alguno de los dos subárboles crece
+      if (creceIz && (nodo->fe == -1))
+      {
+        // Se rota
+        cout << "Debería hacer una rotación por la izquierda\n";
+      }
+      else if (creceDe && (nodo->fe == 1))
+      {
+        // Se rota
+        cout << "Debería hacer una rotación por la derecha\n";
+      }
+      else
+      {
+        // Se actualiza FE
+        nodo->fe = nodo->FactorEquilibrio();
+        cout << "Factor de equilibrio del nodo " << nodo->item << " actualizado a " << nodo->fe << endl;
+      }
+    }
   }
   // Si ya existe, no se inserta
-  return false;
+  return ok;
+}
+
+bool
+TAVLCom::Insertar (const TComplejo& complejo)
+{
+  bool crece = false;
+
+  return InsertarAux(complejo, crece);
 }
 
 // Busca el nodo mayor del árbol moviéndose hacia la derecha

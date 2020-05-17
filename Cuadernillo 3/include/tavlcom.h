@@ -29,6 +29,8 @@ class TAVLCom
     void BorrarHoja (const TComplejo&);
     TComplejo Mayor ();
     void BorrarAux (TAVLCom*, const TComplejo&);
+    bool InsertarAux (const TComplejo&, bool&);
+
 
   public:
     // FORMA CANÓNICA
@@ -63,13 +65,16 @@ class TNodoAVL
     TComplejo item;
     // Subárbol izquierdo y derecho
     TAVLCom iz, de;
+    // Factor de equilibrio
+    int fe;
     void Copia (const TNodoAVL&);
     bool EsHoja () const;
+    int FactorEquilibrio () const;
 
   public:
     // FORMA CANÓNICA
-    TNodoAVL ();
-    TNodoAVL (const TComplejo&);
+    TNodoAVL (const int&);
+    TNodoAVL (const TComplejo&, const int&);
     TNodoAVL (const TNodoAVL&);
     ~TNodoAVL ();
     TNodoAVL& operator= (const TNodoAVL&);
