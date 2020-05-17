@@ -64,10 +64,25 @@ int main ()
   {
     cout << "OK - Borrado nodo 2 hijos -- " << arbol1 << endl;
   }
-  // Borrado de nodo hoja (f)
-  if (arbol1.Borrar(f))
+  // Borrado de nodo hoja (a)
+  if (arbol1.Borrar(a))
   {
     cout << "OK - Borrado nodo hoja -- " << arbol1 << endl;
+  }
+  // Borrado de la raíz de todo el árbol con 2 hijos
+  if (arbol1.Borrar(b))
+  {
+    cout << "OK - Borrado raiz con 2 hijos -- " << arbol1 << endl;
+  }
+  // Borrado de la raíz de todo el árbol con 1 hijo
+  if (arbol1.Borrar(e))
+  {
+    cout << "OK - Borrado raiz con 1 hijo -- " << arbol1 << endl;
+  }
+  // Borrado de un árbol hoja
+  if (arbol1.Borrar(f))
+  {
+    cout << "OK - Borrado arbol hoja -- " << arbol1 << endl;
   }
   // Borrado árbol vacío
   if (!arbolvacio.Borrar(a))
@@ -79,6 +94,25 @@ int main ()
   {
     cout << "OK - Borrado nodo que no existe" << endl;
   }
+
+  TABBCom arbolPrueba;
+  arbolPrueba.Insertar(TComplejo(8));
+  arbolPrueba.Insertar(TComplejo(3));
+  arbolPrueba.Insertar(TComplejo(5));
+  arbolPrueba.Insertar(TComplejo(4));
+  arbolPrueba.Insertar(TComplejo(6));
+  arbolPrueba.Insertar(TComplejo(7));
+  arbolPrueba.Insertar(TComplejo(5.5));
+  arbolPrueba.Insertar(TComplejo(6.5));
+  arbolPrueba.Insertar(TComplejo(4.5));
+  arbolPrueba.Insertar(TComplejo(4.1));
+  arbolPrueba.Insertar(TComplejo(4.7));
+  arbolPrueba.Insertar(TComplejo(4.8));
+  arbolPrueba.Insertar(TComplejo(4.6));
+
+  arbolPrueba.Borrar(TComplejo(3));
+  arbolPrueba.Borrar(TComplejo(5));
+  cout << "Borrado arbolPrueba : " << arbolPrueba << endl;
 
   return 0;
 }

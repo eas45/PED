@@ -279,12 +279,6 @@ TABBCom::BorrarAux (TABBCom* padre, const TComplejo& complejo)
       nodo->item = itemAux;
     }
   }
-  
-  
-  // Si no tiene hijo izquierdo, coge el hijo derecho
-  // Si no tiene hijo derecho, coge el hijo izquierdo
-  // Si no, coge el mayor por la izquierda
-  
 }
 
 bool
@@ -294,62 +288,6 @@ TABBCom::Borrar (const TComplejo& complejo)
   { // Si está en el árbol
     // Se busca con una función auxiliar recursiva
     BorrarAux(NULL, complejo);
-
-
-  //   TVectorCom inorden(Inorden());
-  //   TVectorCom preorden(Preorden());
-  //   int posicion = 0;
-  //   TComplejo intercambiar;
-  //   bool encontrado = false;
-
-  //   // Cuando es un árbol hoja
-  //   if (nodo->EsHoja())
-  //   {
-  //     this->~TABBCom();
-  //     return true;
-  //   }
-  //   // Cuando no es un árbol hoja
-  //   // Busco en inorden el elemento
-  //   for (int i = 1; i <= inorden.Tamano() && posicion == 0; i++)
-  //   {
-  //     if (inorden[i] == complejo)
-  //     {
-  //       posicion = i;
-  //     }
-  //   }
-  //   if (posicion == 1)
-  //   {
-  //     cout << "eliminar nodo con hijo A LA DERECHA" << endl;
-  //     // Eliminar el nodo con un hijo a la derecha
-  //     for (int i = 1; i <= preorden.Tamano() && !encontrado; i++)
-  //     {
-  //       if (complejo == preorden[i])
-  //       { // Cuando encuentra el elemento en el recorrido preorden
-  //         // Se guarda el siguiente para ser intercambiado
-  //         intercambiar = preorden[i+1];
-  //         encontrado = true;
-  //       }
-  //     }
-  //   }
-  //   else
-  //   {
-  //     intercambiar = inorden[posicion - 1];
-  //   }
-    
-  //   // Se destruye
-  //   this->~TABBCom();
-  //   // Se reconstruye
-  //   for (int i = 1; i <= preorden.Tamano(); i++)
-  //   {
-  //     if (preorden[i] != complejo && preorden[i] != intercambiar)
-  //     { // Es un nodo más, se debe añadir
-  //       Insertar(preorden[i]);
-  //     }
-  //     else if (preorden[i] == complejo)
-  //     { // Es el elemento que se debe intercambiar
-  //       Insertar(intercambiar);
-  //     }
-  //   }
 
     return true;
   }
@@ -471,6 +409,10 @@ TABBCom::InordenAux (TVectorCom& recorrido, int& posicion) const
 TVectorCom
 TABBCom::Inorden () const
 {
+  if (EsVacio())
+  {
+    return TVectorCom();
+  }
   // Se crea un vector donde guardar el resultado del recorrido
   TVectorCom recorrido(Nodos());
   // Posición inicial del recorrido
@@ -508,6 +450,11 @@ TABBCom::PreordenAux (TVectorCom& recorrido, int& posicion) const
 TVectorCom
 TABBCom::Preorden () const
 {
+  if (EsVacio())
+  {
+    return TVectorCom();
+  }
+
   // Se crea un vector donde guardar el resultado del recorrido
   TVectorCom recorrido(Nodos());
   // Posición inicial del recorrido
@@ -542,6 +489,10 @@ TABBCom::PostordenAux (TVectorCom& recorrido, int& posicion) const
 TVectorCom
 TABBCom::Postorden () const
 {
+  if (EsVacio())
+  {
+    return TVectorCom();
+  }
   // Se crea un vector donde guardar el resultado del recorrido
   TVectorCom recorrido(Nodos());
   // Posición inicial del recorrido
