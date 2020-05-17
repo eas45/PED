@@ -1,20 +1,20 @@
-#ifndef _TABBCOM_
-#define _TABBCOM_
+#ifndef _TAVLCOM_
+#define _TAVLCOM_
 
 #include "tvectorcom.h"
 #include <queue>
 
-class TNodoABB;
-class TABBCom;
+class TNodoAVL;
+class TAVLCom;
 
-class TABBCom
+class TAVLCom
 {
-  friend class TNodoABB;
-  friend ostream& operator<< (ostream&, const TABBCom&);
+  friend class TNodoAVL;
+  friend ostream& operator<< (ostream&, const TAVLCom&);
 
   private:
     // Puntero al nodo
-    TNodoABB *nodo;
+    TNodoAVL *nodo;
     // Item_error
     TComplejo error;
     // AUXILIAR : Devuelve el recorrido en inorden
@@ -25,19 +25,20 @@ class TABBCom
     void PostordenAux (TVectorCom&, int&) const;
     // MÉTODOS
     void Inic ();
-    void Copia (const TABBCom&);
+    void Copia (const TAVLCom&);
     void BorrarHoja (const TComplejo&);
     TComplejo Mayor ();
-    void BorrarAux (TABBCom*, const TComplejo&);
+    void BorrarAux (TAVLCom*, const TComplejo&);
 
   public:
     // FORMA CANÓNICA
-    TABBCom ();
-    TABBCom (const TABBCom&);
-    ~TABBCom ();
-    TABBCom& operator= (const TABBCom&);
+    TAVLCom ();
+    TAVLCom (const TAVLCom&);
+    ~TAVLCom ();
+    TAVLCom& operator= (const TAVLCom&);
     // MÉTODOS
-    bool operator== (const TABBCom&) const;
+    bool operator== (const TAVLCom&) const;
+    bool operator!= (const TAVLCom&) const;
     bool EsVacio () const;
     bool Insertar (const TComplejo&);
     bool Borrar (const TComplejo&);
@@ -53,25 +54,25 @@ class TABBCom
     TVectorCom Niveles () const;
 };
 
-class TNodoABB
+class TNodoAVL
 {
-  friend class TABBCom;
+  friend class TAVLCom;
 
   private:
     // El elemento del nodo
     TComplejo item;
     // Subárbol izquierdo y derecho
-    TABBCom iz, de;
-    void Copia (const TNodoABB&);
+    TAVLCom iz, de;
+    void Copia (const TNodoAVL&);
     bool EsHoja () const;
 
   public:
     // FORMA CANÓNICA
-    TNodoABB ();
-    TNodoABB (const TComplejo&);
-    TNodoABB (const TNodoABB&);
-    ~TNodoABB ();
-    TNodoABB& operator= (const TNodoABB&);
+    TNodoAVL ();
+    TNodoAVL (const TComplejo&);
+    TNodoAVL (const TNodoAVL&);
+    ~TNodoAVL ();
+    TNodoAVL& operator= (const TNodoAVL&);
 };
 
 #endif

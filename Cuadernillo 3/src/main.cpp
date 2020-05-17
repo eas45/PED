@@ -1,4 +1,4 @@
-#include "tabbcom.h"
+#include "tavlcom.h"
 
 /*
   -Función Raiz
@@ -13,7 +13,7 @@
 int main ()
 {
   TComplejo a(-3, 2), b(3, -2), c(-3, -2), d(3, 2), e(1, -2), f(7, 4);
-  TABBCom arbol1, arbolvacio;
+  TAVLCom arbol1, arbolvacio;
   // Estructura árbol1
   arbol1.Insertar(b);
   arbol1.Insertar(c);

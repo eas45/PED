@@ -1,44 +1,44 @@
-#include "tabbcom.h"
+#include "tavlcom.h"
 
 /************
- * TNODOABB *
+ * TNODOAVL *
  ************/
 
 /*
-  La clase TNodoABB utiliza el constructor y destructor por defecto.
+  La clase TNodoAVL utiliza el constructor y destructor por defecto.
   Por lo que no se ha visto necesario escribir una implementación de ambos métodos.
 */
 
 // Constructor por defecto
-TNodoABB::TNodoABB ()
+TNodoAVL::TNodoAVL ()
 {
   // Sin implementación
 }
 
 // Constructor con el valor del item
-TNodoABB::TNodoABB (const TComplejo& complejo)
+TNodoAVL::TNodoAVL (const TComplejo& complejo)
 {
   item = complejo;
 }
 
 // Constructor de copia
-TNodoABB::TNodoABB (const TNodoABB& nodo)
+TNodoAVL::TNodoAVL (const TNodoAVL& nodo)
 {
   Copia(nodo);
 }
 
 // Destructor
-TNodoABB::~TNodoABB ()
+TNodoAVL::~TNodoAVL ()
 {
   // Sin implementación
 }
 
-TNodoABB&
-TNodoABB::operator= (const TNodoABB& nodo)
+TNodoAVL&
+TNodoAVL::operator= (const TNodoAVL& nodo)
 {
   if (this != &nodo)
   {
-    this->~TNodoABB();
+    this->~TNodoAVL();
     Copia(nodo);
   }
 
@@ -46,7 +46,7 @@ TNodoABB::operator= (const TNodoABB& nodo)
 }
 
 void
-TNodoABB::Copia (const TNodoABB& nodo)
+TNodoAVL::Copia (const TNodoAVL& nodo)
 {
   // Copia el valor del item del nodo
   item = nodo.item;
@@ -62,7 +62,7 @@ TNodoABB::Copia (const TNodoABB& nodo)
 }
 
 bool
-TNodoABB::EsHoja () const
+TNodoAVL::EsHoja () const
 {
   if (iz.EsVacio() && de.EsVacio())
   {
@@ -72,21 +72,21 @@ TNodoABB::EsHoja () const
 }
 
 /***********
- * TABBCOM *
+ * TAVLCOM *
  ***********/
 
-TABBCom::TABBCom ()
+TAVLCom::TAVLCom ()
 {
   Inic();
 }
 
-TABBCom::TABBCom (const TABBCom& arbol)
+TAVLCom::TAVLCom (const TAVLCom& arbol)
 {
   Copia(arbol);
 }
 
 // Destructor
-TABBCom::~TABBCom ()
+TAVLCom::~TAVLCom ()
 {
   if (!EsVacio())
   {
@@ -95,12 +95,12 @@ TABBCom::~TABBCom ()
   }
 }
 
-TABBCom&
-TABBCom::operator= (const TABBCom& arbol)
+TAVLCom&
+TAVLCom::operator= (const TAVLCom& arbol)
 {
   if (this != &arbol)
   {
-    this->~TABBCom();
+    this->~TAVLCom();
     Copia(arbol);
   }
 
@@ -108,18 +108,18 @@ TABBCom::operator= (const TABBCom& arbol)
 }
 
 void
-TABBCom::Inic ()
+TAVLCom::Inic ()
 {
   nodo = NULL;
 }
 
 void
-TABBCom::Copia (const TABBCom& arbol)
+TAVLCom::Copia (const TAVLCom& arbol)
 {
   Inic();
   if (!arbol.EsVacio())
   {
-    nodo = new TNodoABB(arbol.nodo->item);
+    nodo = new TNodoAVL(arbol.nodo->item);
     // aux->item = arbol.nodo->item;
     // nodo = aux;
     if (!arbol.nodo->iz.EsVacio())
@@ -141,24 +141,30 @@ TABBCom::Copia (const TABBCom& arbol)
     estructura del árbol si no de que tenga los mismos elementos
 */
 bool
-TABBCom::operator== (const TABBCom& arbol) const
+TAVLCom::operator== (const TAVLCom& arbol) const
 {
   return (Inorden() == arbol.Inorden());
 }
 
 bool
-TABBCom::EsVacio () const
+TAVLCom::operator!= (const TAVLCom& arbol) const
+{
+  return !(Inorden() == arbol.Inorden());
+}
+
+bool
+TAVLCom::EsVacio () const
 {
   return (nodo == NULL);
 }
 
 bool
-TABBCom::Insertar (const TComplejo& complejo)
+TAVLCom::Insertar (const TComplejo& complejo)
 {
   if (EsVacio())
   { // Si el árbol está vacío
     // Se inserta
-    nodo = new TNodoABB(complejo);
+    nodo = new TNodoAVL(complejo);
     return true;
   }
   if (complejo != Raiz())
@@ -175,7 +181,7 @@ TABBCom::Insertar (const TComplejo& complejo)
 
 // Busca el nodo mayor del árbol moviéndose hacia la derecha
 TComplejo
-TABBCom::Mayor ()
+TAVLCom::Mayor ()
 {
   if (!nodo->de.EsVacio())
   { // Si se puede ir más hacia la derecha
@@ -187,7 +193,7 @@ TABBCom::Mayor ()
 }
 
 void
-TABBCom::BorrarAux (TABBCom* padre, const TComplejo& complejo)
+TAVLCom::BorrarAux (TAVLCom* padre, const TComplejo& complejo)
 {
   if (complejo != Raiz())
   { // Si no es
@@ -209,24 +215,24 @@ TABBCom::BorrarAux (TABBCom* padre, const TComplejo& complejo)
         if (&padre->nodo->iz == this)
         { // Comprueba si es el hijo de la izquierda
           // Lo elimina
-          padre->nodo->iz.~TABBCom();
+          padre->nodo->iz.~TAVLCom();
         }
         else
         { // Si es el hijo de la derecha
           // Lo elimina
-          padre->nodo->de.~TABBCom();
+          padre->nodo->de.~TAVLCom();
         }
       }
       else
       { // Si no tiene padre (es un árbol hoja)
         // Se elimina sin más
-        this->~TABBCom();
+        this->~TAVLCom();
       }
     }
     else if (nodo->iz.EsVacio())
     { // Si el árbol izdo es vacío, tiene un árbol dcho
       // Se copia el hijo dcho
-      TABBCom arbolAux(nodo->de);
+      TAVLCom arbolAux(nodo->de);
       if (padre != NULL)
       { // Si tiene padre
         if (&padre->nodo->iz == this)
@@ -249,7 +255,7 @@ TABBCom::BorrarAux (TABBCom* padre, const TComplejo& complejo)
     else if (nodo->de.EsVacio())
     { // Si el árbol decho es vacío, tiene un árbol izdo
       // Se copia el hijo izdo
-      TABBCom arbolAux(nodo->iz);
+      TAVLCom arbolAux(nodo->iz);
       if (padre != NULL)
       { // Si tiene padre
         if (&padre->nodo->iz == this)
@@ -282,7 +288,7 @@ TABBCom::BorrarAux (TABBCom* padre, const TComplejo& complejo)
 }
 
 bool
-TABBCom::Borrar (const TComplejo& complejo)
+TAVLCom::Borrar (const TComplejo& complejo)
 {
   if (Buscar(complejo))
   { // Si está en el árbol
@@ -297,7 +303,7 @@ TABBCom::Borrar (const TComplejo& complejo)
 
 // Devuelve TRUE si el elemento está en el árbol, FALSE en caso contrario
 bool
-TABBCom::Buscar (const TComplejo& complejo) const
+TAVLCom::Buscar (const TComplejo& complejo) const
 {
   if (!EsVacio())
   {
@@ -326,7 +332,7 @@ TABBCom::Buscar (const TComplejo& complejo) const
 }
 
 TComplejo
-TABBCom::Raiz () const
+TAVLCom::Raiz () const
 {
   if (!EsVacio())
   {
@@ -337,7 +343,7 @@ TABBCom::Raiz () const
 }
 
 int
-TABBCom::Altura () const
+TAVLCom::Altura () const
 {
   // Caso base
   if (EsVacio())
@@ -352,7 +358,7 @@ TABBCom::Altura () const
 }
 
 int
-TABBCom::Nodos () const
+TAVLCom::Nodos () const
 {
   // Caso base
   if (EsVacio())
@@ -365,7 +371,7 @@ TABBCom::Nodos () const
 }
 
 int
-TABBCom::NodosHoja () const
+TAVLCom::NodosHoja () const
 {
   // Caso base
   if (EsVacio())
@@ -389,7 +395,7 @@ TABBCom::NodosHoja () const
     IRD
 */
 void
-TABBCom::InordenAux (TVectorCom& recorrido, int& posicion) const
+TAVLCom::InordenAux (TVectorCom& recorrido, int& posicion) const
 {
   // Llama al hijo izquierdo
   if (!nodo->iz.EsVacio())
@@ -407,7 +413,7 @@ TABBCom::InordenAux (TVectorCom& recorrido, int& posicion) const
 }
 
 TVectorCom
-TABBCom::Inorden () const
+TAVLCom::Inorden () const
 {
   if (EsVacio())
   {
@@ -430,7 +436,7 @@ TABBCom::Inorden () const
     RID
 */
 void
-TABBCom::PreordenAux (TVectorCom& recorrido, int& posicion) const
+TAVLCom::PreordenAux (TVectorCom& recorrido, int& posicion) const
 {
   // Escribe
   recorrido[posicion] = Raiz();
@@ -448,7 +454,7 @@ TABBCom::PreordenAux (TVectorCom& recorrido, int& posicion) const
 }
 
 TVectorCom
-TABBCom::Preorden () const
+TAVLCom::Preorden () const
 {
   if (EsVacio())
   {
@@ -469,7 +475,7 @@ TABBCom::Preorden () const
     IDR
 */
 void
-TABBCom::PostordenAux (TVectorCom& recorrido, int& posicion) const
+TAVLCom::PostordenAux (TVectorCom& recorrido, int& posicion) const
 {
   // Llama al hijo izquierdo
   if (!nodo->iz.EsVacio())
@@ -487,7 +493,7 @@ TABBCom::PostordenAux (TVectorCom& recorrido, int& posicion) const
 }
 
 TVectorCom
-TABBCom::Postorden () const
+TAVLCom::Postorden () const
 {
   if (EsVacio())
   {
@@ -505,16 +511,16 @@ TABBCom::Postorden () const
 
 // Recorrido por niveles
 TVectorCom
-TABBCom::Niveles () const
+TAVLCom::Niveles () const
 {
   // Se crea un vector donde guardar el resultado del recorrido
   TVectorCom recorrido(Nodos());
   // Posición inicial del recorrido
   int posicion = 1;
   // Crea la cola
-  queue<TABBCom*> colaArboles;
+  queue<TAVLCom*> colaArboles;
   // Variable auxiliar que contiene el primer árbol de la cola
-  TABBCom* arbolAux;
+  TAVLCom* arbolAux;
 
   if (EsVacio())
   {
@@ -557,9 +563,9 @@ TABBCom::Niveles () const
 
 // OPERADOR SALIDA
 
-ostream& operator<< (ostream& os, const TABBCom& arbol)
+ostream& operator<< (ostream& os, const TAVLCom& arbol)
 {
-  os << arbol.Niveles();
+  os << arbol.Inorden();
 
   return os;
 }
