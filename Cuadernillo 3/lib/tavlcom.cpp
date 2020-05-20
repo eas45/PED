@@ -175,24 +175,18 @@ TAVLCom::EsVacio () const
 void
 TAVLCom::EquilibrarIzquierda ()
 {
-  TNodoAVL *padre, *hijoIz;
-
-
-  // Se apunta al padre (al nodo en el que nos encontramos)
-  padre = nodo;
-  cout << "Como puntero *p apunto a : " << *this << endl;
   // Se apunta al hijo izquierdo
-  hijoIz = nodo->iz.nodo;
-  cout << "*h : " << padre->iz << " -- FE= " << hijoIz->FactorEquilibrio() << endl;
+  TNodoAVL *hijoIz = nodo->iz.nodo;
+
+  cout << "Como puntero *p apunto a : " << *this << endl;
+  cout << "*h : " << nodo->iz << " -- FE= " << hijoIz->FactorEquilibrio() << endl;
 
   if (hijoIz->FactorEquilibrio() == -1)
   { // Rotación II
     cout << "Rotación II" << endl;
     // El hijo derecho del hijo izquierdo pasa a ser el hijo izquierdo del padre
-    //padre->iz.nodo = hijoIz->de.nodo;
     nodo->iz.nodo = hijoIz->de.nodo;
     // El padre pasa a ser el hijo derecho del hijo izquierdo
-    //hijoIz->de.nodo = padre;
     hijoIz->de.nodo = nodo;
     // Se actualiza el FE del nodo intercambiado
     nodo->fe = 0;
@@ -204,8 +198,6 @@ TAVLCom::EquilibrarIzquierda ()
     cout << "Rotación ID" << endl;
     TNodoAVL *hijoDe = hijoIz->de.nodo;
     int auxFE = hijoDe->FactorEquilibrio();
-    // Se apunta al hijo derecho del hijo izquierdo
-    hijoDe = hijoIz->de.nodo;
     // El hijo derecho de hijoDe pasa a ser el hijo izquierdo del padre
     nodo->iz.nodo = hijoDe->de.nodo;
     // El hijo izquierdo de hijoDe pasa a ser el hijo derecho de hijoIz
@@ -213,17 +205,17 @@ TAVLCom::EquilibrarIzquierda ()
     // Se actualizan los FE
     switch (auxFE)
     {
-    case -1:
-      hijoIz->fe = 0;
-      nodo->fe = 1;
-      break;
-    case 1:
-      hijoIz->fe = -1;
-      nodo->fe = 0;
-    default:
-      hijoIz->fe = 0;
-      nodo->fe = 0;
-      break;
+      case -1:
+        hijoIz->fe = 0;
+        nodo->fe = 1;
+        break;
+      case 1:
+        hijoIz->fe = -1;
+        nodo->fe = 0;
+      default:
+        hijoIz->fe = 0;
+        nodo->fe = 0;
+        break;
     }
     // hijoIz pasa a ser el hijo izquierdo de hijoDe
     hijoDe->iz.nodo = hijoIz;
@@ -232,6 +224,57 @@ TAVLCom::EquilibrarIzquierda ()
     // Se actualiza el puntero
     nodo = hijoDe;
   }
+}
+
+void
+TAVLCom::EquilibrarDerecha ()
+{
+  TNodoAVL *hijoDe = nodo->de.nodo;
+  
+  if (hijoDe->FactorEquilibrio() == 1)
+  { // Rotación DD
+    cout << "Rotación DD" << endl;
+    // El hijo izdo de hijoDe pasa a ser el hijo izdo del nodo
+    nodo->de.nodo = hijoDe->iz.nodo;
+    // El padre pasa a ser el hijo dcho de hijoDe
+    hijoDe->iz.nodo = nodo;
+    // Se actualiza el FE del padre
+    nodo->fe = 0;
+    // Se actualiza la raíz del árbol
+    nodo = hijoDe;
+  }
+  else
+  { // Rotación DI
+    cout << "Rotación DI" << endl;
+    TNodoAVL* hijoIz = hijoDe->iz.nodo;
+    int auxFE = hijoIz->FactorEquilibrio();
+    // El hijo izquierdo de hijoIz pasa a ser el hijo derecho del padre
+    nodo->de.nodo = hijoIz->iz.nodo;
+    // El hijo derecho de hijoIz pasa a ser el hijo izquierdo de hijoDe
+    hijoDe->iz.nodo = hijoIz->de.nodo;
+    // Se actualizan los FE
+    switch (auxFE)
+    {
+      case 1:
+        hijoDe->fe = 0;
+        nodo->fe = 1;
+        break;
+      case -1:
+        hijoDe->fe = -1;
+        nodo->fe = 0;
+      default:
+        hijoDe->fe = 0;
+        nodo->fe = 0;
+        break;
+    }
+    // hijoDe pasa a ser el hijo derecho de hijoIz
+    hijoIz->de.nodo = hijoDe;
+    // El padre pasa a ser el hijo izquierdo de hijoIz
+    hijoIz->iz.nodo = nodo;
+    // Se actualiza el puntero de la raíz del árbol
+    nodo = hijoIz;
+  }
+  
 }
 
 bool
@@ -274,7 +317,7 @@ TAVLCom::InsertarAux (const TComplejo& complejo, bool& crece)
       {
         // Se rota
         cout << "Debería hacer una rotación por la derecha\n";
-        //EquilibrarIzquierda();
+        EquilibrarDerecha();
         // Al haber sido equilibrado, el árbol no crece
         crece = false;
         
@@ -283,7 +326,7 @@ TAVLCom::InsertarAux (const TComplejo& complejo, bool& crece)
       nodo->fe = nodo->FactorEquilibrio();
       cout << "Factor de equilibrio del nodo " << nodo->item << " actualizado a " << nodo->fe << endl;
       if (nodo->fe == 0)
-      {
+      { // Si FE es 0, el árbol no ha crecido
         crece = false;
       }
     }

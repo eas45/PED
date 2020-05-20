@@ -31,6 +31,7 @@ class TAVLCom
     void BorrarAux (TAVLCom*, const TComplejo&);
     bool InsertarAux (const TComplejo&, bool&);
     void EquilibrarIzquierda ();
+    void EquilibrarDerecha ();
 
   public:
     // FORMA CANÓNICA

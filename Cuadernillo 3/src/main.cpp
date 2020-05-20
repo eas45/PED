@@ -44,7 +44,49 @@ int main ()
   cout << "- Inserción 3" << endl;
   b.Insertar(c3);
 
-  cout << "Resultado rotación ID : " << b << endl;
+  cout << "Resultado rotación ID : " << b << endl << endl;
+
+  TAVLCom c;
+  cout << "- Inserción 3" << endl;
+  c.Insertar(c3);
+  cout << "+ Árbol resultado : " << c << endl;
+  cout << "- Inserción 2" << endl;
+  c.Insertar(c2);
+  cout << "+ Árbol resultado : " << c << endl;
+  cout << "- Inserción 5" << endl;
+  c.Insertar(c5);
+  cout << "+ Árbol resultado : " << c << endl;
+  cout << "- Inserción 4" << endl;
+  c.Insertar(c4);
+  cout << "+ Árbol resultado : " << c << endl;
+  cout << "- Inserción 7" << endl;
+  c.Insertar(c7);
+  cout << "+ Árbol resultado : " << c << endl;
+  cout << "- Inserción 8" << endl;
+  c.Insertar(c8);
+
+  cout << "Resultado rotación DD : " << c << endl << endl;
+
+  TAVLCom d;
+  cout << "- Inserción 3" << endl;
+  d.Insertar(c3);
+  cout << "+ Árbol resultado : " << d << endl;
+  cout << "- Inserción 2" << endl;
+  d.Insertar(c2);
+  cout << "+ Árbol resultado : " << d << endl;
+  cout << "- Inserción 7" << endl;
+  d.Insertar(c7);
+  cout << "+ Árbol resultado : " << d << endl;
+  cout << "- Inserción 5" << endl;
+  d.Insertar(c5);
+  cout << "+ Árbol resultado : " << d << endl;
+  cout << "- Inserción 8" << endl;
+  d.Insertar(c8);
+  cout << "+ Árbol resultado : " << d << endl;
+  cout << "- Inserción 4" << endl;
+  d.Insertar(c4);
+
+  cout << "Resultado rotación DI : " << d << endl << endl;
 
   return 0;
 }
