@@ -177,14 +177,14 @@ TAVLCom::EquilibrarIzquierda ()
 {
   // Se apunta al hijo izquierdo
   TNodoAVL *hijoIz = nodo->iz.nodo;
-  cout << "FE HIJO IZ : " << hijoIz->FactorEquilibrio() << "-- " << hijoIz->item << endl;
+  // cout << "FE HIJO IZ : " << hijoIz->FactorEquilibrio() << "-- " << hijoIz->item << endl;
 
   // cout << "Como puntero *p apunto a : " << *this << endl;
   // cout << "*h : " << nodo->iz << " -- FE= " << hijoIz->FactorEquilibrio() << endl;
 
   if (hijoIz->FactorEquilibrio() != 1)
   { // Rotación II
-    cout << "Rotación II" << endl;
+    // cout << "Rotación II" << endl;
     // El hijo derecho del hijo izquierdo pasa a ser el hijo izquierdo del padre
     nodo->iz.nodo = hijoIz->de.nodo;
     // El padre pasa a ser el hijo derecho del hijo izquierdo
@@ -196,7 +196,7 @@ TAVLCom::EquilibrarIzquierda ()
   }
   else
   { // Rotación ID
-    cout << "Rotación ID" << endl;
+    // cout << "Rotación ID" << endl;
     TNodoAVL *hijoDe = hijoIz->de.nodo;
     int auxFE = hijoDe->FactorEquilibrio();
     // El hijo derecho de hijoDe pasa a ser el hijo izquierdo del padre
@@ -237,7 +237,7 @@ TAVLCom::EquilibrarDerecha ()
   
   if (hijoDe->FactorEquilibrio() != -1)
   { // Rotación DD
-    cout << "Rotación DD" << endl;
+    // cout << "Rotación DD" << endl;
     // El hijo izdo de hijoDe pasa a ser el hijo izdo del nodo
     nodo->de.nodo = hijoDe->iz.nodo;
     // El padre pasa a ser el hijo dcho de hijoDe
@@ -249,7 +249,7 @@ TAVLCom::EquilibrarDerecha ()
   }
   else
   { // Rotación DI
-    cout << "Rotación DI" << endl;
+    // cout << "Rotación DI" << endl;
     TNodoAVL* hijoIz = hijoDe->iz.nodo;
     int auxFE = hijoIz->FactorEquilibrio();
     // El hijo izquierdo de hijoIz pasa a ser el hijo derecho del padre
@@ -300,19 +300,19 @@ TAVLCom::InsertarAux (const TComplejo& complejo, bool& crece)
     {
       ok = nodo->iz.InsertarAux(complejo, crece);
       creceIz = crece;
-      cout << "# Insertado a la izquierda de " << nodo->item << endl;
+      // cout << "# Insertado a la izquierda de " << nodo->item << endl;
     }
     else
     {
       ok = nodo->de.InsertarAux(complejo, crece);
       creceDe = crece;
-      cout << "# Insertado a la derecha de " << nodo->item << endl;
+      // cout << "# Insertado a la derecha de " << nodo->item << endl;
     }
-    cout << "CreceIz : " << creceIz << " || CreceDe : " << creceDe << endl;
+    // cout << "CreceIz : " << creceIz << " || CreceDe : " << creceDe << endl;
 
     if (creceIz || creceDe)
     { // Si alguno de los dos subárboles crece
-    cout << "FE " << nodo->fe << " -- " << nodo->item << endl;
+    // cout << "FE " << nodo->fe << " -- " << nodo->item << endl;
       if (creceIz && (nodo->fe == -1))
       {
         // Se rota
@@ -368,19 +368,20 @@ TAVLCom::Mayor ()
 void
 TAVLCom::BorrarAux (TAVLCom* padre, const TComplejo& complejo, bool& decrece)
 {
-  bool decreceIz, decreceDe = false;
+  bool decreceIz, decreceDe;
+  decreceIz = decreceDe = false;
 
   if (complejo != Raiz())
   { // Si no es
     if (complejo < Raiz())
     { // Si es menor, va por la izquierda
-    cout << complejo << " ES MENOR QUE " << Raiz() << endl;
+    // cout << complejo << " ES MENOR QUE " << Raiz() << endl;
       nodo->iz.BorrarAux(this, complejo, decrece);
       decreceIz = decrece;
     }
     else
     { // Si no, por la derecha
-    cout << complejo << " ES MAYOR QUE " << Raiz() << endl;
+    // cout << complejo << " ES MAYOR QUE " << Raiz() << endl;
       nodo->de.BorrarAux(this, complejo, decrece);
       decreceDe = decrece;
     }
@@ -411,8 +412,8 @@ TAVLCom::BorrarAux (TAVLCom* padre, const TComplejo& complejo, bool& decrece)
   }
   else
   { // Si es ese
-  cout << "Lo he encontrado" << endl;
-  cout << "El árbol es " << Niveles() << endl;
+  // cout << "Lo he encontrado" << endl;
+  // cout << "El árbol es " << Niveles() << endl;
     decrece = true;
     if (nodo->EsHoja())
     { // Comprueba si es hoja
