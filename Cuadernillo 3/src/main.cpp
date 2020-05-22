@@ -1,92 +1,57 @@
 #include "tavlcom.h"
 
+
+TAVLCom a;
+TComplejo c5(5), c10(10), c20(20), c25(25), c30(30), c32(32), c35(35), c40(40), c42(42), c45(45), c50(50), c55(55);
+
+void borrar();
+
 int main ()
 {
-  TAVLCom a;
-  TComplejo c0(0), c1(1), c2(2), c3(3), c4(4), c5(5), c6(6), c7(7), c8(8), c9(9);
+  // BORRADO CON ROTACIONES DOBLES (Se recomienda haber pasado el test de inserciones)
 
-  cout << "- Inserción 8" << endl;
-  a.Insertar(c8);
-  cout << "+ Árbol resultado : " << a << endl;
-  cout << "- Inserción 9" << endl;
-  a.Insertar(c9);
-  cout << "+ Árbol resultado : " << a << endl;
-  cout << "- Inserción 3" << endl;
-  a.Insertar(c3);
-  cout << "+ Árbol resultado : " << a << endl;
-  cout << "- Inserción 4" << endl;
-  a.Insertar(c4);
-  cout << "+ Árbol resultado : " << a << endl;
-  cout << "- Inserción 2" << endl;
-  a.Insertar(c2);
-  cout << "+ Árbol resultado : " << a << endl;
-  cout << "- Inserción 1" << endl;
-  a.Insertar(c1);
+  cout << "- Inserción 40" << endl;
+  a.Insertar(c40);
+  cout << "- Inserción 30" << endl;
+  a.Insertar(c30);
+  cout << "- Inserción 50" << endl;
+  a.Insertar(c50);
+  cout << "- Inserción 20" << endl;
+  a.Insertar(c20);
+  cout << "- Inserción 35" << endl;
+  a.Insertar(c35);
+  cout << "- Inserción 45" << endl;
+  a.Insertar(c45);
+  cout << "- Inserción 55" << endl;
+  a.Insertar(c55);
+  cout << "- Inserción 10" << endl;
+  a.Insertar(c10);
+  cout << "- Inserción 25" << endl;
+  a.Insertar(c25);
+  cout << "- Inserción 32" << endl;
+  a.Insertar(c32);
+  cout << "- Inserción 42" << endl << endl;
+  a.Insertar(c42);
+  cout << "- Inserción 5" << endl << endl;
+  a.Insertar(c5);
 
-  cout << "Resultado rotación II : " << a << endl << endl;
-
-  TAVLCom b;
-  cout << "- Inserción 4" << endl;
-  b.Insertar(c4);
-  cout << "+ Árbol resultado : " << b << endl;
-  cout << "- Inserción 1" << endl;
-  b.Insertar(c1);
-  cout << "+ Árbol resultado : " << b << endl;
-  cout << "- Inserción 5" << endl;
-  b.Insertar(c5);
-  cout << "+ Árbol resultado : " << b << endl;
-  cout << "- Inserción 0" << endl;
-  b.Insertar(c0);
-  cout << "+ Árbol resultado : " << b << endl;
-  cout << "- Inserción 2" << endl;
-  b.Insertar(c2);
-  cout << "+ Árbol resultado : " << b << endl;
-  cout << "- Inserción 3" << endl;
-  b.Insertar(c3);
-
-  cout << "Resultado rotación ID : " << b << endl << endl;
-
-  TAVLCom c;
-  cout << "- Inserción 3" << endl;
-  c.Insertar(c3);
-  cout << "+ Árbol resultado : " << c << endl;
-  cout << "- Inserción 2" << endl;
-  c.Insertar(c2);
-  cout << "+ Árbol resultado : " << c << endl;
-  cout << "- Inserción 5" << endl;
-  c.Insertar(c5);
-  cout << "+ Árbol resultado : " << c << endl;
-  cout << "- Inserción 4" << endl;
-  c.Insertar(c4);
-  cout << "+ Árbol resultado : " << c << endl;
-  cout << "- Inserción 7" << endl;
-  c.Insertar(c7);
-  cout << "+ Árbol resultado : " << c << endl;
-  cout << "- Inserción 8" << endl;
-  c.Insertar(c8);
-
-  cout << "Resultado rotación DD : " << c << endl << endl;
-
-  TAVLCom d;
-  cout << "- Inserción 3" << endl;
-  d.Insertar(c3);
-  cout << "+ Árbol resultado : " << d << endl;
-  cout << "- Inserción 2" << endl;
-  d.Insertar(c2);
-  cout << "+ Árbol resultado : " << d << endl;
-  cout << "- Inserción 7" << endl;
-  d.Insertar(c7);
-  cout << "+ Árbol resultado : " << d << endl;
-  cout << "- Inserción 5" << endl;
-  d.Insertar(c5);
-  cout << "+ Árbol resultado : " << d << endl;
-  cout << "- Inserción 8" << endl;
-  d.Insertar(c8);
-  cout << "+ Árbol resultado : " << d << endl;
-  cout << "- Inserción 4" << endl;
-  d.Insertar(c4);
-
-  cout << "Resultado rotación DI : " << d << endl << endl;
+  borrar();
 
   return 0;
+}
+
+void borrar()
+{
+  cout << "Borrado 55 :" << endl;
+  a.Borrar(c55);
+  cout << "+ Resultado borrado : " << a.Niveles() << endl << endl;
+  cout << "Borrado 32 :" << endl;
+  a.Borrar(c32);
+  cout << "+ Resultado borrado : " << a.Niveles() << endl << endl;
+  cout << "Borrado 40:" << endl;
+  a.Borrar(c40);
+  cout << "+ Resultado borrado : " << a.Niveles() << endl << endl;
+  cout << "Borrado 30 :" << endl;
+  a.Borrar(c30);
+  cout << "+ Resultado borrado : " << a.Niveles() << endl << endl;
 }

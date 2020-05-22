@@ -177,11 +177,12 @@ TAVLCom::EquilibrarIzquierda ()
 {
   // Se apunta al hijo izquierdo
   TNodoAVL *hijoIz = nodo->iz.nodo;
+  cout << "FE HIJO IZ : " << hijoIz->FactorEquilibrio() << "-- " << hijoIz->item << endl;
 
-  cout << "Como puntero *p apunto a : " << *this << endl;
-  cout << "*h : " << nodo->iz << " -- FE= " << hijoIz->FactorEquilibrio() << endl;
+  // cout << "Como puntero *p apunto a : " << *this << endl;
+  // cout << "*h : " << nodo->iz << " -- FE= " << hijoIz->FactorEquilibrio() << endl;
 
-  if (hijoIz->FactorEquilibrio() == -1)
+  if (hijoIz->FactorEquilibrio() != 1)
   { // Rotación II
     cout << "Rotación II" << endl;
     // El hijo derecho del hijo izquierdo pasa a ser el hijo izquierdo del padre
@@ -230,8 +231,11 @@ void
 TAVLCom::EquilibrarDerecha ()
 {
   TNodoAVL *hijoDe = nodo->de.nodo;
+
+  // cout << "Como puntero *p apunto a : " << Niveles() << endl;
+  // cout << "*h : " << nodo->de.Niveles() << " -- FE= " << hijoDe->FactorEquilibrio() << endl;
   
-  if (hijoDe->FactorEquilibrio() == 1)
+  if (hijoDe->FactorEquilibrio() != -1)
   { // Rotación DD
     cout << "Rotación DD" << endl;
     // El hijo izdo de hijoDe pasa a ser el hijo izdo del nodo
@@ -257,10 +261,10 @@ TAVLCom::EquilibrarDerecha ()
     {
       case 1:
         hijoDe->fe = 0;
-        nodo->fe = 1;
+        nodo->fe = -1;
         break;
       case -1:
-        hijoDe->fe = -1;
+        hijoDe->fe = 1;
         nodo->fe = 0;
       default:
         hijoDe->fe = 0;
@@ -281,7 +285,8 @@ bool
 TAVLCom::InsertarAux (const TComplejo& complejo, bool& crece)
 {
   // Devuelve si se ha podido insertar o no
-  bool ok, creceIz, creceDe = false;
+  bool ok, creceIz, creceDe;
+  ok = creceIz = creceDe = false;
 
   if (EsVacio())
   { // Si el árbol está vacío
@@ -295,36 +300,40 @@ TAVLCom::InsertarAux (const TComplejo& complejo, bool& crece)
     {
       ok = nodo->iz.InsertarAux(complejo, crece);
       creceIz = crece;
+      cout << "# Insertado a la izquierda de " << nodo->item << endl;
     }
     else
     {
       ok = nodo->de.InsertarAux(complejo, crece);
       creceDe = crece;
+      cout << "# Insertado a la derecha de " << nodo->item << endl;
     }
+    cout << "CreceIz : " << creceIz << " || CreceDe : " << creceDe << endl;
 
     if (creceIz || creceDe)
     { // Si alguno de los dos subárboles crece
+    cout << "FE " << nodo->fe << " -- " << nodo->item << endl;
       if (creceIz && (nodo->fe == -1))
       {
         // Se rota
-        cout << "Debería hacer una rotación por la izquierda\n";
+        // cout << "Debería hacer una rotación por la izquierda" << endl;
         EquilibrarIzquierda();
         // Al haber sido equilibrado, el árbol no crece
         crece = false;
-        cout << "FE del padre anterior : " << nodo->de << " || " << nodo->de.nodo->fe << " -- " << nodo->de.nodo->FactorEquilibrio() << endl;
+        // cout << "FE del padre anterior : " << nodo->de << " || " << nodo->de.nodo->fe << " -- " << nodo->de.nodo->FactorEquilibrio() << endl;
       }
       else if (creceDe && (nodo->fe == 1))
       {
         // Se rota
-        cout << "Debería hacer una rotación por la derecha\n";
+        // cout << "Debería hacer una rotación por la derecha" << endl;
         EquilibrarDerecha();
         // Al haber sido equilibrado, el árbol no crece
         crece = false;
-        
+        // cout << "FE del padre anterior : " << nodo->de << " || " << nodo->de.nodo->fe << " -- " << nodo->de.nodo->FactorEquilibrio() << endl;
       }
       // Se actualiza FE
       nodo->fe = nodo->FactorEquilibrio();
-      cout << "Factor de equilibrio del nodo " << nodo->item << " actualizado a " << nodo->fe << endl;
+      // cout << "Factor de equilibrio del nodo " << nodo->item << " actualizado a " << nodo->fe << endl;
       if (nodo->fe == 0)
       { // Si FE es 0, el árbol no ha crecido
         crece = false;
@@ -357,21 +366,54 @@ TAVLCom::Mayor ()
 }
 
 void
-TAVLCom::BorrarAux (TAVLCom* padre, const TComplejo& complejo)
+TAVLCom::BorrarAux (TAVLCom* padre, const TComplejo& complejo, bool& decrece)
 {
+  bool decreceIz, decreceDe = false;
+
   if (complejo != Raiz())
   { // Si no es
     if (complejo < Raiz())
     { // Si es menor, va por la izquierda
-      nodo->iz.BorrarAux(this, complejo);
+    cout << complejo << " ES MENOR QUE " << Raiz() << endl;
+      nodo->iz.BorrarAux(this, complejo, decrece);
+      decreceIz = decrece;
     }
     else
     { // Si no, por la derecha
-      nodo->de.BorrarAux(this, complejo);
+    cout << complejo << " ES MAYOR QUE " << Raiz() << endl;
+      nodo->de.BorrarAux(this, complejo, decrece);
+      decreceDe = decrece;
+    }
+    // Una vez elimina el nodo, comprueba si es necesario alguna rotación
+    if (!EsVacio())
+    { // Si el árbol no se ha quedado vacío
+      // cout << "Comprobación rotación arbol " << nodo->item << " con FE : " << nodo->fe << endl;
+      if (decrece)
+      {
+        // cout << "* Ha decrecido *" << endl;
+        // Se comprueba si es necesaria alguna rotación
+        if (nodo->fe == -1 && decreceDe)
+        { // Se debe equilibrar por la izquierda
+          // cout << "< EquilibraIz" << endl;
+          EquilibrarIzquierda();
+        }
+        else if (nodo->fe == 1 && decreceIz)
+        {
+          // cout << "> EquilibraDe" << endl;
+          EquilibrarDerecha();
+        }
+      }
+      // Se actualiza FE
+      nodo->fe = nodo->FactorEquilibrio();
+      // cout << "Nuevo FE " << nodo->item << " : " << nodo->fe << endl;
+      // cout << "Falseo DECRECE" << endl;
     }
   }
   else
   { // Si es ese
+  cout << "Lo he encontrado" << endl;
+  cout << "El árbol es " << Niveles() << endl;
+    decrece = true;
     if (nodo->EsHoja())
     { // Comprueba si es hoja
       if (padre != NULL)
@@ -441,12 +483,29 @@ TAVLCom::BorrarAux (TAVLCom* padre, const TComplejo& complejo)
     }
     else
     { // Si tiene 2 hijos
+      // cout << "####### Se debe intercambiar el nodo " << nodo->item;
       // Busca el mayor nodo del hijo izquierdo
+      TComplejo itemAnterior = Raiz();
       TComplejo itemAux = nodo->iz.Mayor();
+      TNodoAVL* nodoIntercambio = nodo;
+
+      // cout << " por el " << itemAux << endl;
       // Se elimina el mayor nodo del hijo izquierdo
-      BorrarAux(this, itemAux);
+      BorrarAux(this, itemAux, decrece);
+      // Antes de intercambiar, busca el nodo en el que hacerlo
+      while (nodoIntercambio->item != itemAnterior)
+      {
+        if (nodoIntercambio->item < itemAnterior)
+        {
+          nodoIntercambio = nodoIntercambio->iz.nodo;
+        }
+        else
+        {
+          nodoIntercambio = nodoIntercambio->de.nodo;
+        }
+      }
       // Se guarda el valor del mayor en el nodo actual
-      nodo->item = itemAux;
+      nodoIntercambio->item = itemAux;
     }
   }
 }
@@ -454,10 +513,12 @@ TAVLCom::BorrarAux (TAVLCom* padre, const TComplejo& complejo)
 bool
 TAVLCom::Borrar (const TComplejo& complejo)
 {
+  bool decrece = false;
+
   if (Buscar(complejo))
   { // Si está en el árbol
     // Se busca con una función auxiliar recursiva
-    BorrarAux(NULL, complejo);
+    BorrarAux(NULL, complejo, decrece);
 
     return true;
   }
@@ -729,7 +790,7 @@ TAVLCom::Niveles () const
 
 ostream& operator<< (ostream& os, const TAVLCom& arbol)
 {
-  os << arbol.Niveles();
+  os << arbol.Inorden();
 
   return os;
 }

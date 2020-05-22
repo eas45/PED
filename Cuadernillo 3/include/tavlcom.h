@@ -28,7 +28,7 @@ class TAVLCom
     void Copia (const TAVLCom&);
     void BorrarHoja (const TComplejo&);
     TComplejo Mayor ();
-    void BorrarAux (TAVLCom*, const TComplejo&);
+    void BorrarAux (TAVLCom*, const TComplejo&, bool&);
     bool InsertarAux (const TComplejo&, bool&);
     void EquilibrarIzquierda ();
     void EquilibrarDerecha ();
